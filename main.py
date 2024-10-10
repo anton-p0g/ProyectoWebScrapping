@@ -13,9 +13,6 @@ def set_up_driver() -> webdriver:
     driver = webdriver.Chrome()
     return driver
 
-def access_web_site(driver: webdriver, url: str):
-    driver.get(url)
-
 
 def accept_cookies(driver: webdriver):
     pass
@@ -42,9 +39,14 @@ def combine_restaurants_to_csv(restaurants: List[Dict[str, str]]):
 
 # ---- Para hacer testing ---- #
 driver: webdriver = set_up_driver()
-access_web_site(driver)
-sleep(3)
-driver.quit()
+# driver.get("https://www.happycow.net/")
+# sleep(3)
+# driver.quit()
 
-# resturant: Restaurant = Restaurant(driver=driver)
-# address = resturant.get_address()
+url = "https://www.happycow.net/reviews/la-oveja-negra-madrid-32567"
+
+resturant: Restaurant = Restaurant(driver, url)
+address = resturant.get_address()
+sleep(3)
+driver.quit()   
+
