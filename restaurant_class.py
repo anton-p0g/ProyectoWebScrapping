@@ -7,13 +7,13 @@ from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from typing import List, Dict, Tuple
 
-from main import set_up_driver, access_web_site
 
 class Restaurant:
     def __init__(self, driver: webdriver, url_restaurante: "str") -> None:
         self.driver: webdriver = driver
         self.url: str = url_restaurante
 
+        self.driver.get(self.url)
 
     def get_title(self) -> str:
         # Pablo
@@ -22,6 +22,7 @@ class Restaurant:
 
     def get_address(self) -> str:
         # Edu
+        print("Hello")
         pass
 
 
