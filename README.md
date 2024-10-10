@@ -1,3 +1,1 @@
 # ProyectoWebScrapping
-
-proyecto web scaping
