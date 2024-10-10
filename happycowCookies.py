@@ -10,8 +10,8 @@ def iniciar_navegador():
     """
     Inicia el navegador web Edge y carga la página principal.
     """
-    driver = webdriver.Edge()  # Aquí se abre Firefox
-    driver.get("https://www.tripadvisor.es/")  # Cargamos la página web
+    driver = webdriver.Edge()  # Aquí se abre Edge
+    driver.get("https://www.happycow.net/")  # Cargamos la página web
     return driver
 
 def aceptar_cookies(driver):
@@ -20,7 +20,7 @@ def aceptar_cookies(driver):
     """
     try:
         boton_aceptar = WebDriverWait(driver, 15).until(
-            EC.element_to_be_clickable((By.XPATH, "//button[@id='onetrust-accept-btn-handler']"))
+            EC.element_to_be_clickable((By.XPATH, "//*[@id='web-home']/div[3]/div/div[2]/div[3]/div/div[2]"))
         )
         time.sleep(2)
         boton_aceptar.click()
@@ -31,7 +31,7 @@ def aceptar_cookies(driver):
 # Función principal que coordina todo el proceso
 def main():
     driver = iniciar_navegador()  # Abrimos el navegador
-    time.sleep(3.5)
+    time.sleep(4)
     aceptar_cookies(driver)  # Aceptamos las cookies
     time.sleep(4)
     driver.quit()  # Cerramos el navegador
