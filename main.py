@@ -51,7 +51,8 @@ url = "https://www.happycow.net/reviews/la-oveja-negra-madrid-32567"
 resturant: Restaurant = Restaurant(driver, url)
 accept_cookies(driver)
 sleep(2)
-address = resturant.get_bookmarks()
+address = resturant.get_coordinates()
+print(address)
 sleep(2)
 driver.quit()   
 

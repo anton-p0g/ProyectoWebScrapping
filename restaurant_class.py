@@ -6,6 +6,8 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from typing import List, Dict, Tuple
+import datetime
+import re
 
 
 class Restaurant:
@@ -28,8 +30,18 @@ class Restaurant:
 
     def get_coordinates(self) -> Tuple[str, str]:
         # Anton
-        pass
+        map_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[3]/a'
+        map_element = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, map_path)))
+        
+        href: str = map_element.get_attribute("href")
 
+        pattern: str = "(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
+        coordinates: re.Match = re.search(pattern, href)
+        lat: str = coordinates.group("lat")
+        long: str = coordinates.group("long")
+
+        return (lat, long)
 
     def get_total_rating(self) -> int:
         # Edu
@@ -89,7 +101,17 @@ class Restaurant:
         # Anton
         Crear un diccionario con clave siendo el día de la semana y el valor el horario ese día
         '''
-        pass
-    
+        today: str = datetime.datetime.today().strftime("%A")
+        view_hours_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a/span'
+        hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
 
+        view_hours_button = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, view_hours_path)))
+        view_hours_button.click()
+
+
+        hours_list = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, hours_list_path)))
+
+        print(hours_list.text)
     
