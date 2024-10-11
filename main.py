@@ -15,7 +15,11 @@ def set_up_driver() -> webdriver:
 
 
 def accept_cookies(driver: webdriver):
-    pass
+    path: str = '//*[@id="web-listing"]/div[3]/div/div[2]/div[3]/div/div[2]'
+    WebDriverWait(driver, 15).until(
+        EC.presence_of_element_located((By.XPATH, path)))
+    accept_button = driver.find_element(By.XPATH, path)
+    accept_button.click()
 
 
 
@@ -46,7 +50,9 @@ driver: webdriver = set_up_driver()
 url = "https://www.happycow.net/reviews/la-oveja-negra-madrid-32567"
 
 resturant: Restaurant = Restaurant(driver, url)
-address = resturant.get_address()
+accept_cookies(driver)
+sleep(3)
+address = resturant.get_bookmarks()
 sleep(3)
 driver.quit()   
 

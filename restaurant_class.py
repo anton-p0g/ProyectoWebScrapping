@@ -50,7 +50,12 @@ class Restaurant:
 
     def get_bookmarks(self) -> int:
         # Anton
-        pass
+        path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/div[3]/span'
+        bookmarks = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, path)))
+        
+        return int(bookmarks.text)
+
 
 
     def get_price_range(self) -> str:
