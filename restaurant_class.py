@@ -95,7 +95,15 @@ class Restaurant:
         # Anton
         Hacer un try except por si no existe un sitio web del restaurante
         '''
-        pass
+        try:
+            website_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[1]/ul/li[2]/a'
+            website = WebDriverWait(self.driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, website_path)))
+            
+            print(website.get_attribute("href"))
+        except Exception as e:
+            print(f"Error al obtener el sitio web\n\n:{e}")
+
 
 
     def get_timetable(self) -> Dict[str, str]:
@@ -104,14 +112,16 @@ class Restaurant:
         Crear un diccionario con clave siendo el día de la semana y el valor el horario ese día
         '''
         today: str = datetime.datetime.today().strftime("%A")
+
         view_hours_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a'
-        hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
+    
+        view_hours_button = self.driver.find_element(By.XPATH, '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a/span')
 
-        view_hours_button = WebDriverWait(self.driver, 15).until(
-            EC.presence_of_element_located((By.XPATH, view_hours_path)))
-        print(view_hours_button)
-
-
+        print(view_hours_button.text)
+        
+        
+        
+        #hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
         # hours_list = WebDriverWait(self.driver, 15).until(
         #     EC.presence_of_element_located((By.XPATH, hours_list_path)))
 

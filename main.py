@@ -42,17 +42,14 @@ def combine_restaurants_to_csv(restaurants: List[Dict[str, str]]):
 
 # ---- Para hacer testing ---- #
 driver: webdriver = set_up_driver()
-# driver.get("https://www.happycow.net/")
-# sleep(3)
-# driver.quit()
 
-url = "https://www.happycow.net/reviews/la-oveja-negra-madrid-32567"
+url = "https://www.happycow.net/reviews/viva-chapata-madrid-34396"
 
 resturant: Restaurant = Restaurant(driver, url)
 accept_cookies(driver)
 
-address = resturant.get_timetable()
-print(address)
+resturant.get_restaurant_website()
+
 sleep(2)
 driver.quit()   
 
