@@ -13,9 +13,7 @@ def set_up_driver() -> webdriver:
     driver = webdriver.Chrome()
     return driver
 
-
-def accept_cookies(driver: webdriver):
-    path: str = '//*[@id="web-listing"]/div[3]/div/div[2]/div[3]/div/div[2]'
+def accept_cookies(driver: webdriver, path: str):
     accept_button = WebDriverWait(driver, 15).until(
         EC.presence_of_element_located((By.XPATH, path)))
     accept_button.click()
@@ -41,18 +39,21 @@ def combine_restaurants_to_csv(restaurants: List[Dict[str, str]]):
     pass
 
 # ---- Para hacer testing ---- #
-driver: webdriver = set_up_driver()
+#driver: webdriver = set_up_driver()
 # driver.get("https://www.happycow.net/")
 # sleep(3)
 # driver.quit()
 
-url = "https://www.happycow.net/reviews/la-oveja-negra-madrid-32567"
+"""url = "https://www.happycow.net/reviews/la-oveja-negra-madrid-32567"
 
+path: str = '//*[@id="web-listing"]/div[3]/div/div[2]/div[3]/div/div[2]'
 resturant: Restaurant = Restaurant(driver, url)
-accept_cookies(driver)
+accept_cookies(driver, path)
 sleep(2)
 address = resturant.get_coordinates()
 print(address)
 sleep(2)
 driver.quit()   
-
+"""
+#if __name__ == "__main__":
+#    main()
