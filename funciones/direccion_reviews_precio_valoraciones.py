@@ -29,7 +29,7 @@ def aceptar_cookies(driver):
     except Exception as e:
         print(f"Error al aceptar las cookies: {e}")
 
-def obtener_direccion(driver):
+def obtener_direccion(driver) -> str:
     """
     Obtiene la dirección del restaurante
     """
@@ -40,45 +40,45 @@ def obtener_direccion(driver):
         codigo_postal = driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
 
         direccion = calle + ", " + ciudad + ", " + pais + ", " + codigo_postal
-        print(direccion)
+        return direccion
     except Exception as e:
         print(f"Error al obtener la direccion: {e}")
 
-def obtener_total_rating(driver):
+def obtener_total_rating(driver) -> str:
     """
     Obtiene el número de reviews del restaurante y lo muestra limpio (le quita los paréntesis)
     """
     try:
         ratings = driver.find_element(By.XPATH, "//span[@class='rating-reviews leading-7 text-sm text-gray-500 ml-0']")
         ratings_limpio = re.sub(r"[()]", "", ratings.text)
-        print(ratings_limpio)
+        return ratings_limpio
     except Exception as e:
         print(f"Error al obtener la cantidad de reviews: {e}")
 
-def obtener_precio(driver):
+def obtener_precio(driver) -> str:
     """
     Obtiene el nivel de precio según el número de dólares en amarillo
     """
     try:
         cantidad_dolares = driver.find_elements(By.XPATH, "//*[@class='h-4.5 w-4.5 -mx-0.5 text-yellow-500']")
         if len(cantidad_dolares) == 1:
-            print("Barato")
+            return "Barato"
         elif len(cantidad_dolares) == 2:
-            print("Moderado")
+            return "Moderado"
         elif len(cantidad_dolares) == 3:
-            print("Caro")
+            return "Caro"
         else:
-            print("?")
+            return "?"
     except Exception as e:
         print(f"Error al obtener el precio: {e}")
 
-def obtener_valoracion(driver):
+def obtener_valoracion(driver) -> str:
     """
     Obtiene el número de estrellas del restaurante
     """
     try:
         valoracion = driver.find_element(By.XPATH, "//meta[@itemprop='ratingValue']").get_attribute("content")
-        print(valoracion)
+        return valoracion
     except Exception as e:
         print(f"Error al obtener el precio: {e}")
 
@@ -89,12 +89,12 @@ def main():
     time.sleep(2)
     aceptar_cookies(driver)  # Aceptamos las cookies
     time.sleep(3.5)
-    obtener_direccion(driver) # Printea dirección
-    obtener_total_rating(driver) # Printea n.º reviews
+    print(obtener_direccion(driver)) # Printea dirección
+    print(obtener_total_rating(driver)) # Printea n.º reviews
     time.sleep(3)
-    obtener_precio(driver) # Printea nivel de precio
+    print(obtener_precio(driver)) # Printea nivel de precio
     time.sleep(2)
-    obtener_valoracion(driver) # Printea n.º estrellas
+    print(obtener_valoracion(driver)) # Printea n.º estrellas
     driver.quit()  # Cerramos el navegador
 
 # Este es el punto de inicio del programa
