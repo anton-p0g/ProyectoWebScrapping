@@ -9,7 +9,9 @@ from typing import List, Dict, Tuple
 import datetime
 import re
 
-
+"""
+Se supone que hemos entrado ya en la url del restaurante
+"""
 class Restaurant:
     def __init__(self, driver: webdriver, url_restaurante: "str") -> None:
         self.driver: webdriver = driver
