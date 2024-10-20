@@ -13,7 +13,7 @@ import re
 Se supone que hemos entrado ya en la url del restaurante
 """
 class Restaurant:
-    def __init__(self, driver: webdriver, url_restaurante: str) -> None:
+    def __init__(self, driver: webdriver, url_restaurante: "str") -> None:
         self.driver: webdriver = driver
         self.url: str = url_restaurante
 
@@ -41,14 +41,6 @@ class Restaurant:
         map_element = WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located((By.XPATH, map_path)))
 
-        href: str = map_element.get_attribute("href")
-
-        pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
-        coordinates: re.Match = re.search(pattern, href)
-        lat: str = coordinates.group("lat")
-        long: str = coordinates.group("long")
-
-        
         href: str = map_element.get_attribute("href")
 
         pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
@@ -88,9 +80,6 @@ class Restaurant:
         path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/div[3]/span'
         bookmarks = WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located((By.XPATH, path)))
-        
-        return int(bookmarks.text)
-
 
         return int(bookmarks.text)
 
@@ -133,12 +122,6 @@ class Restaurant:
             website = WebDriverWait(self.driver, 15).until(
                 EC.presence_of_element_located((By.XPATH, website_path)))
 
-            
-            print(website.get_attribute("href"))
-        except Exception as e:
-            print(f"Error al obtener el sitio web\n\n:{e}")
-
-
             print(website.get_attribute("href"))
         except Exception as e:
             print(f"Error al obtener el sitio web\n\n:{e}")
@@ -162,17 +145,3 @@ class Restaurant:
         #     EC.presence_of_element_located((By.XPATH, hours_list_path)))
 
         # print(hours_list.text)
-
-    
-        view_hours_button = self.driver.find_element(By.XPATH, '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a/span')
-
-        print(view_hours_button.text)
-        
-        
-        
-        #hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
-        # hours_list = WebDriverWait(self.driver, 15).until(
-        #     EC.presence_of_element_located((By.XPATH, hours_list_path)))
-
-        # print(hours_list.text)
-    
