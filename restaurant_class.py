@@ -87,7 +87,7 @@ class Restaurant:
         except:
             return ""
 
-    def get_rating(self) -> int:
+    def get_rating(self) -> float:
         # Edu
         try:
             valoracion = self.driver.find_element(By.XPATH, "//meta[@itemprop='ratingValue']").get_attribute("content")
