@@ -32,7 +32,6 @@ class Restaurant:
 
     def get_address(self) -> str:
         # Edu
-        print("Hello")
         pass
 
     def get_coordinates(self) -> Tuple[str, str]:
@@ -92,7 +91,6 @@ class Restaurant:
         return int(bookmarks.text)
 
 
-        return int(bookmarks.text)
 
     def get_price_range(self) -> str:
         '''
@@ -128,51 +126,65 @@ class Restaurant:
         # Anton
         Hacer un try except por si no existe un sitio web del restaurante
         '''
+        website_path: str = '//a[contains(text(), "Website")]'
         try:
-            website_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[1]/ul/li[2]/a'
             website = WebDriverWait(self.driver, 15).until(
                 EC.presence_of_element_located((By.XPATH, website_path)))
-
             
-            print(website.get_attribute("href"))
+            website_link = website.get_attribute("href")
         except Exception as e:
-            print(f"Error al obtener el sitio web\n\n:{e}")
+            return ""
+        
+        return website_link
 
-
-            print(website.get_attribute("href"))
+    def instagram(self) -> str:
+        '''
+        # Anton
+        '''
+        website_path: str = '//a[contains(text(), "Instagram")]'
+        try:
+            website = WebDriverWait(self.driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, website_path)))
+            
+            website_link = website.get_attribute("href")
         except Exception as e:
-            print(f"Error al obtener el sitio web\n\n:{e}")
+            return ""
+        
+        return website_link
+
 
     def get_timetable(self) -> Dict[str, str]:
         '''
         # Anton
-        Crear un diccionario con clave siendo el día de la semana y el valor el horario ese día
         '''
-        today: str = datetime.datetime.today().strftime("%A")
+        try:
+            today: str = datetime.datetime.today().strftime("%A") # Para cambiar el texto Today al correcto día de la semana
+            view_hours_path: str = "/html/body/div[1]/div[1]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[2]/div/div/a"
+            hours_list_path: str = "/html/body/div[1]/div[1]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[2]/div/div/ul/li/child::*"
 
-        view_hours_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a'
+            view_hours_button = WebDriverWait(self.driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, view_hours_path)))
+            view_hours_button.click()
+            sleep(0.4)
+            
+            timetable: Dict[str, str] = {}
+            day = WebDriverWait(self.driver, 15).until(
+                EC.presence_of_all_elements_located((By.XPATH,hours_list_path)))
 
-        view_hours_button = self.driver.find_element(By.XPATH,
-                                                     '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a/span')
+            for i in range(len(day) // 2):
+                timetable[day[i * 2].text] = day[(i * 2) + 1].text
 
-        print(view_hours_button.text)
+            timetable[today] = timetable.pop("Today")
 
-        # hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
-        # hours_list = WebDriverWait(self.driver, 15).until(
-        #     EC.presence_of_element_located((By.XPATH, hours_list_path)))
+            # Comprueba si algún día el restaurante está cerrado
+            day_order = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            for day in day_order:
+                timetable.setdefault(day, "Closed")
 
-        # print(hours_list.text)
+            # Ordeno correctamente los días
+            timetable = {day: timetable[day] for day in day_order}
 
-    
-        view_hours_button = self.driver.find_element(By.XPATH, '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a/span')
-
-        print(view_hours_button.text)
-        
-        
-        
-        #hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
-        # hours_list = WebDriverWait(self.driver, 15).until(
-        #     EC.presence_of_element_located((By.XPATH, hours_list_path)))
-
-        # print(hours_list.text)
+            return timetable
+        except:
+            return ""
     
