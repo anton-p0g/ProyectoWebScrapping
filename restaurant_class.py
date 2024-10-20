@@ -74,14 +74,6 @@ class Restaurant:
             coordinates: re.Match = re.search(pattern, href)
             lat: str = coordinates.group("lat")
             long: str = coordinates.group("long")
-
-            
-            href: str = map_element.get_attribute("href")
-
-            pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
-            coordinates: re.Match = re.search(pattern, href)
-            lat: str = coordinates.group("lat")
-            long: str = coordinates.group("long")
         except:
             return ""
         return (lat, long)
