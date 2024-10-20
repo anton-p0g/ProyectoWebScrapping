@@ -115,7 +115,7 @@ class Restaurant:
             list_type: List[str] = []
             for i in type_res:
                 if i.text.endswith("an" or "sh" or "se") and i.text != "Vegan":
-                    list_type += [i]
+                    list_type += [i.text]
             return list_type
 
         except:
