@@ -16,7 +16,29 @@ class Restaurant:
         self.url: str = url_restaurante
         self.driver.get(self.url)
 
-    def get_title(self) -> str:
+    def fetch_restaurant_data(self):
+        restaurant = dict()
+        restaurant["Name"] = self.get_name()
+        restaurant["Address"] = self.get_address()
+        coordinates = self.get_coordinates() 
+        restaurant["Lat"] = coordinates[0]
+        restaurant["Long"] = coordinates[1]
+        restaurant["Number of Ratings"] = self.get_total_rating()
+        restaurant["Restaurant Rating"] = self.get_rating()
+        restaurant["Type of Restaurant"] = self.get_type_restaurant()
+        restaurant["Number of Bookmarks"] = self.get_bookmarks()
+        restaurant["Price Range"] = self.get_price_range()
+        restaurant["Phone Number"] = self.get_telephone_number()
+        restaurant["Email"] = self.get_email()
+        restaurant["Website"] = self.get_restaurant_website()
+        restaurant["Instagram"] = self.get_instagram()
+        restaurant["Facebook"] = self.get_facebook()
+        restaurant["Timetable"] = self.get_timetable()
+
+        return restaurant
+        
+
+    def get_name(self) -> str:
         # Pablo
         try:
             titulo = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(
@@ -29,7 +51,16 @@ class Restaurant:
 
     def get_address(self) -> str:
         # Edu
-        pass
+        try:
+            calle = self.driver.find_element(By.XPATH, "//span[@itemprop='streetAddress']").get_attribute("textContent")
+            ciudad = self.driver.find_element(By.XPATH, "//span[@itemprop='addressLocality']").get_attribute("textContent")
+            pais = self.driver.find_element(By.XPATH, "//span[@itemprop='addressCountry']").get_attribute("textContent")
+            codigo_postal = self.driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
+
+            direccion = calle + ", " + ciudad + ", " + pais + ", " + codigo_postal
+            return direccion
+        except:
+            return ""
 
     def get_coordinates(self) -> Tuple[str, str]:
         # Anton
@@ -58,11 +89,20 @@ class Restaurant:
 
     def get_total_rating(self) -> int:
         # Edu
-        pass
+        try:
+            ratings = self.driver.find_element(By.XPATH, "//span[@class='rating-reviews leading-7 text-sm text-gray-500 ml-0']")
+            ratings_limpio = re.sub(r"[()]", "", ratings.text)
+            return int(ratings_limpio)
+        except:
+            return ""
 
     def get_rating(self) -> int:
         # Edu
-        pass
+        try:
+            valoracion = self.driver.find_element(By.XPATH, "//meta[@itemprop='ratingValue']").get_attribute("content")
+            return int(valoracion)
+        except:
+            return ""
 
     def get_type_restaurant(self) -> List[str]:
         '''
@@ -97,7 +137,18 @@ class Restaurant:
         # Edu
         Crear una función auxiliar que convierte los iconos dollars a: Cheap, Medium, Expensive (o lo que sea)
         '''
-        pass
+        try:
+            cantidad_dolares = self.driver.find_elements(By.XPATH, "//*[@class='h-4.5 w-4.5 -mx-0.5 text-yellow-500']")
+            if len(cantidad_dolares) == 1:
+                return "Barato"
+            elif len(cantidad_dolares) == 2:
+                return "Moderado"
+            elif len(cantidad_dolares) == 3:
+                return "Caro"
+            else:
+                return "?"
+        except:
+            return ""
 
     def get_telephone_number(self) -> str:
         # Pablo
@@ -195,7 +246,7 @@ class Restaurant:
             for day in day_order:
                 timetable.setdefault(day, "Closed")
 
-            # Ordeno correctamente los días
+            # Ordena correctamente los días
             timetable = {day: timetable[day] for day in day_order}
 
             return timetable

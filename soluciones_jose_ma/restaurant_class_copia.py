@@ -25,7 +25,7 @@ class Restaurant:
         accept_button = WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located((By.XPATH, path_cookie)))
         accept_button.click()
-    def get_title(self) -> str:
+    def get_name(self) -> str:
         # Pablo
         pass
 
