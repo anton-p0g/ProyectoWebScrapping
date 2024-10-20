@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -19,6 +21,10 @@ class Restaurant:
 
         self.driver.get(self.url)
 
+    def accept_cookies(self, path_cookie: str) -> None:
+        accept_button = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_element_located((By.XPATH, path_cookie)))
+        accept_button.click()
     def get_title(self) -> str:
         # Pablo
         pass
@@ -38,7 +44,7 @@ class Restaurant:
         
         href: str = map_element.get_attribute("href")
 
-        pattern: str = "(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
+        pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"  # cuidado: no pusiste r
         coordinates: re.Match = re.search(pattern, href)
         lat: str = coordinates.group("lat")
         long: str = coordinates.group("long")
@@ -103,17 +109,19 @@ class Restaurant:
         # Anton
         Crear un diccionario con clave siendo el día de la semana y el valor el horario ese día
         '''
-        today: str = datetime.datetime.today().strftime("%A")
-        view_hours_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/a/span'
-        hours_list_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[4]/ul/li[2]/div/div/ul'
+        view_hours_path: str = "/html/body/div[1]/div[1]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[2]/div/div/a"
+        hours_list_path: str = "/html/body/div[1]/div[1]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[2]/div/div/ul/li/child::*"
 
         view_hours_button = WebDriverWait(self.driver, 15).until(
             EC.presence_of_element_located((By.XPATH, view_hours_path)))
         view_hours_button.click()
+        time.sleep(0.6)
 
-
-        hours_list = WebDriverWait(self.driver, 15).until(
-            EC.presence_of_element_located((By.XPATH, hours_list_path)))
-
-        print(hours_list.text)
+        timetable: Dict[str, str] = {}
+        day = WebDriverWait(self.driver, 15).until(
+            EC.presence_of_all_elements_located((By.XPATH,hours_list_path))
+        )
+        for i in range(len(day) // 2):
+            timetable[day[i * 2].text] = day[(i * 2) + 1].text
+        return timetable
     
