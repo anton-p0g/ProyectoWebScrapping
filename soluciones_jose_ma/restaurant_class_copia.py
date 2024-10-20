@@ -32,8 +32,19 @@ class Restaurant:
 
     def get_address(self) -> str:
         # Edu
-        print("Hello")
-        pass
+        """
+        Obtiene la dirección del restaurante
+        """
+        try:
+            calle = self.driver.find_element(By.XPATH, "//span[@itemprop='streetAddress']").get_attribute("textContent")
+            ciudad = self.driver.find_element(By.XPATH, "//span[@itemprop='addressLocality']").get_attribute("textContent")
+            pais = self.driver.find_element(By.XPATH, "//span[@itemprop='addressCountry']").get_attribute("textContent")
+            codigo_postal = self.driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
+
+            direccion = calle + ", " + ciudad + ", " + pais + ", " + codigo_postal
+            return direccion
+        except Exception as e:
+            print(f"Error al obtener la dirección: {e}")
 
 
     def get_coordinates(self) -> Tuple[str, str]:
@@ -53,13 +64,27 @@ class Restaurant:
 
     def get_total_rating(self) -> int:
         # Edu
-        pass
+        """
+        Obtiene el número de reviews del restaurante y lo muestra limpio (le quita los paréntesis)
+        """
+        try:
+            ratings = self.driver.find_element(By.XPATH, "//span[@class='rating-reviews leading-7 text-sm text-gray-500 ml-0']")
+            ratings_limpio = re.sub(r"[()]", "", ratings.text)
+            return int(ratings_limpio)
+        except Exception as e:
+            print(f"Error al obtener la cantidad de reviews: {e}")
 
 
     def get_rating(self) -> int:
         # Edu
-        pass
-
+        """
+        Obtiene el número de estrellas del restaurante
+        """
+        try:
+            valoracion = self.driver.find_element(By.XPATH, "//meta[@itemprop='ratingValue']").get_attribute("content")
+            return int(valoracion)
+        except Exception as e:
+            print(f"Error al obtener el precio: {e}")
 
     def get_type_restaurant(self) -> List[str]:
         '''
@@ -83,7 +108,18 @@ class Restaurant:
         # Edu
         Crear una función auxiliar que convierte los iconos dollars a: Cheap, Medium, Expensive (o lo que sea)
         '''
-        pass
+        try:
+            cantidad_dolares = self.driver.find_elements(By.XPATH, "//*[@class='h-4.5 w-4.5 -mx-0.5 text-yellow-500']")
+            if len(cantidad_dolares) == 1:
+                return "Barato"
+            elif len(cantidad_dolares) == 2:
+                return "Moderado"
+            elif len(cantidad_dolares) == 3:
+                return "Caro"
+            else:
+                return "?"
+        except Exception as e:
+            print(f"Error al obtener el precio: {e}")
 
 
     def get_telephone_number(self) -> str:
