@@ -29,7 +29,6 @@ class Restaurant:
         restaurant["Number of Bookmarks"] = self.get_bookmarks()
         restaurant["Price Range"] = self.get_price_range()
         restaurant["Phone Number"] = self.get_telephone_number()
-        restaurant["Email"] = self.get_email()
         restaurant["Website"] = self.get_restaurant_website()
         restaurant["Instagram"] = self.get_instagram()
         restaurant["Facebook"] = self.get_facebook()
@@ -160,17 +159,6 @@ class Restaurant:
         except:
             return ""
 
-    def get_email(self) -> str:
-        # Pablo
-        try:
-            instagram = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(
-                (By.XPATH, '//*[@id="full-site-content"]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li/'
-                           'a[@title="Go to Instagram page for this venue"]')))
-            return instagram.get_attribute("href")
-
-        except:
-            return ""
-
 
     def get_restaurant_website(self) -> str:
         '''
@@ -190,9 +178,6 @@ class Restaurant:
 
 
     def get_instagram(self) -> str:
-        '''
-        # Anton
-        '''
         instagram_path: str = '//a[contains(text(), "Instagram")]'
         try:
             instagram = WebDriverWait(self.driver, 10).until(
