@@ -91,7 +91,7 @@ class Restaurant:
         # Edu
         try:
             valoracion = self.driver.find_element(By.XPATH, "//meta[@itemprop='ratingValue']").get_attribute("content")
-            return int(valoracion)
+            return float(valoracion)
         except:
             return ""
 
