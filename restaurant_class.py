@@ -9,14 +9,11 @@ from typing import List, Dict, Tuple
 import datetime
 import re
 
-"""
-Se supone que hemos entrado ya en la url del restaurante
-"""
+
 class Restaurant:
     def __init__(self, driver: webdriver, url_restaurante: str) -> None:
         self.driver: webdriver = driver
         self.url: str = url_restaurante
-
         self.driver.get(self.url)
 
     def get_title(self) -> str:
@@ -27,8 +24,8 @@ class Restaurant:
 
             return titulo.text
 
-        except Exception:
-            return None
+        except:
+            return ""
 
     def get_address(self) -> str:
         # Edu
@@ -36,25 +33,27 @@ class Restaurant:
 
     def get_coordinates(self) -> Tuple[str, str]:
         # Anton
-        map_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[3]/a'
-        map_element = WebDriverWait(self.driver, 15).until(
-            EC.presence_of_element_located((By.XPATH, map_path)))
+        try:
+            map_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[3]/a'
+            map_element = WebDriverWait(self.driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, map_path)))
 
-        href: str = map_element.get_attribute("href")
+            href: str = map_element.get_attribute("href")
 
-        pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
-        coordinates: re.Match = re.search(pattern, href)
-        lat: str = coordinates.group("lat")
-        long: str = coordinates.group("long")
+            pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
+            coordinates: re.Match = re.search(pattern, href)
+            lat: str = coordinates.group("lat")
+            long: str = coordinates.group("long")
 
-        
-        href: str = map_element.get_attribute("href")
+            
+            href: str = map_element.get_attribute("href")
 
-        pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
-        coordinates: re.Match = re.search(pattern, href)
-        lat: str = coordinates.group("lat")
-        long: str = coordinates.group("long")
-
+            pattern: str = r"(?P<lat>-?[0-9]+\.[0-9]+),(?P<long>-?[0-9]+\.[0-9]+)"
+            coordinates: re.Match = re.search(pattern, href)
+            lat: str = coordinates.group("lat")
+            long: str = coordinates.group("long")
+        except:
+            return ""
         return (lat, long)
 
     def get_total_rating(self) -> int:
@@ -80,16 +79,17 @@ class Restaurant:
             return list_type
 
         except:
-            return None
+            return ""
 
     def get_bookmarks(self) -> int:
         # Anton
-        path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/div[3]/span'
-        bookmarks = WebDriverWait(self.driver, 15).until(
-            EC.presence_of_element_located((By.XPATH, path)))
-        
+        try:
+            path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/div[3]/span'
+            bookmarks = WebDriverWait(self.driver, 15).until(
+                EC.presence_of_element_located((By.XPATH, path)))
+        except:
+            return ""    
         return int(bookmarks.text)
-
 
 
     def get_price_range(self) -> str:
@@ -101,14 +101,13 @@ class Restaurant:
 
     def get_telephone_number(self) -> str:
         # Pablo
+        path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[3]/a/span'
         try:
-            telefono = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(
-                (By.XPATH,
-                 '//*[@id="full-site-content"]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[3]/a/span')))
+            telefono = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, path)))
             return telefono.text
 
         except:
-            return None
+            return ""
 
     def get_email(self) -> str:
         # Pablo
@@ -118,8 +117,9 @@ class Restaurant:
                            'a[@title="Go to Instagram page for this venue"]')))
             return instagram.get_attribute("href")
 
-        except Exception:
-            return None
+        except:
+            return ""
+
 
     def get_restaurant_website(self) -> str:
         '''
@@ -132,25 +132,40 @@ class Restaurant:
                 EC.presence_of_element_located((By.XPATH, website_path)))
             
             website_link = website.get_attribute("href")
-        except Exception as e:
+        except:
             return ""
         
         return website_link
 
-    def instagram(self) -> str:
+
+    def get_instagram(self) -> str:
         '''
         # Anton
         '''
-        website_path: str = '//a[contains(text(), "Instagram")]'
+        instagram_path: str = '//a[contains(text(), "Instagram")]'
         try:
-            website = WebDriverWait(self.driver, 15).until(
-                EC.presence_of_element_located((By.XPATH, website_path)))
+            instagram = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, instagram_path)))
             
-            website_link = website.get_attribute("href")
-        except Exception as e:
+            instagram_link = instagram.get_attribute("href")
+        except:
             return ""
         
-        return website_link
+        return instagram_link
+    
+    
+    def get_facebook(self) -> str:
+        # Anton
+        facebook_path: str = '//a[contains(text(), "Facebook")]'
+        try:
+            facebook = WebDriverWait(self.driver, 10).until(
+                EC.presence_of_element_located((By.XPATH, facebook_path)))
+            
+            facebook_link = facebook.get_attribute("href")
+        except:
+            return ""
+        
+        return facebook_link
 
 
     def get_timetable(self) -> Dict[str, str]:
@@ -165,7 +180,6 @@ class Restaurant:
             view_hours_button = WebDriverWait(self.driver, 15).until(
                 EC.presence_of_element_located((By.XPATH, view_hours_path)))
             view_hours_button.click()
-            sleep(0.4)
             
             timetable: Dict[str, str] = {}
             day = WebDriverWait(self.driver, 15).until(
