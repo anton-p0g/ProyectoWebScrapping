@@ -116,8 +116,7 @@ class Restaurant:
         # Anton
         try:
             path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/div[3]/span'
-            bookmarks = WebDriverWait(self.driver, 15).until(
-                EC.presence_of_element_located((By.XPATH, path)))
+            bookmarks = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, path)))
         except:
             return ""    
         return int(bookmarks.text)
@@ -190,11 +189,10 @@ class Restaurant:
                 EC.presence_of_element_located((By.XPATH, facebook_path)))
             
             facebook_link = facebook.get_attribute("href")
+            return facebook_link
         except:
             return ""
         
-        return facebook_link
-
 
     def get_timetable(self) -> Dict[str, str]:
         '''
