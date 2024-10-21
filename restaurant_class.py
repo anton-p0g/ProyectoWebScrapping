@@ -118,7 +118,7 @@ class Restaurant:
             bookmarks = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, path)))
         except:
             return ""    
-        return int(bookmarks.text)
+        return int(bookmarks.get_attribute("textContent"))
 
 
     def get_price_range(self) -> str:
