@@ -41,9 +41,9 @@ class Restaurant:
         # Pablo
         try:
             titulo = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(
-                (By.XPATH, '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/h1')))
+                (By.XPATH, "//h1[@class='header-title text-2xl leading-normal break-words md:text-[1.75rem]  ']")))
 
-            return titulo.text
+            return titulo.get_attribute("textContent")
 
         except:
             return ""
