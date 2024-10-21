@@ -6,6 +6,7 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
 from time import sleep
 from typing import List, Dict, Tuple
+import csv
 
 from restaurant_class import Restaurant
 
@@ -25,40 +26,61 @@ def accept_cookies(driver: webdriver):
         print("First cookie popup not found -- Trying second type cookie")
         try:
             path2: str = '//button[@class="fides-banner-button fides-banner-button-primary fides-accept-all-button"]'
-            accept_button2 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, path2)))[0]
+            accept_button2 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, path2)))
             accept_button2.click()
             print("Second cookie popup accepted")
         except:
             print("Second cookie popup not found")
 
+
 def read_restaurant_urls(file) -> List[str]:
-    '''
-    Leer el fichero obtenido y guardar los urls en una lista
-    '''
-    pass
-
-# Con un for se crea una clase para cada nuevo url 
-# Se puede crear una función que combina todas las funciones de restaurante para obtener toda la información 
-# Retorna un diccionario y ese restaurante se añade a una lista. Tendremos una lista de diccionarios que luego se 
-# convierte en un csv
-
-def get_restaurant_data(restaurant: Restaurant) -> Dict[str, str]:
-    pass
+    with open(file, 'r') as file:
+        links = file.readlines()
+    return [link.strip() for link in links]
 
 
-def combine_restaurants_to_csv(restaurants: List[Dict[str, str]]):
-    pass
+def get_restaurants_data(driver, urls: List[str]) -> List[Dict[str, str]]:
+    restaurants: List[Restaurant] = []
+    for url in urls:
+        restaurant: Restaurant = Restaurant(driver, url)
+        accept_cookies(driver)
+        restaurant_dict = restaurant.fetch_restaurant_data()
+        restaurants.append(restaurant_dict)
+    
+    return restaurants
+
+
+def combine_restaurants_to_csv(restaurants_data: List[Dict[str, str]], csv_filename: str):
+    if restaurants_data:
+        fieldnames = restaurants_data[0].keys()
+
+    with open(csv_filename, mode="w", newline="", encoding="utf-8") as file:
+            writer = csv.DictWriter(file, fieldnames=fieldnames)
+            writer.writeheader()
+            writer.writerows(restaurants_data)
+
+
 
 # ---- Para hacer testing ---- #
-driver: webdriver = set_up_driver()
 
-url = "https://www.happycow.net/reviews/viva-chapata-madrid-34396"
 
-resturant: Restaurant = Restaurant(driver, url)
-accept_cookies(driver)
+# url = "https://www.happycow.net/reviews/viva-chapata-madrid-34396"
 
-rest_dict = resturant.get_timetable()
-print(rest_dict)
+# resturant: Restaurant = Restaurant(driver, url)
+# accept_cookies(driver)
+# restaurant_list = []
+# rest_dict = resturant.fetch_restaurant_data()
+# restaurant_list.append(rest_dict)
+# print(rest_dict)
+# combine_restaurants_to_csv(restaurant_list, "ABC")
 
-driver.quit()   
+def main():
+    urls = read_restaurant_urls("urls_small.txt")
+    driver: webdriver = set_up_driver() 
 
+    restaurants_data = get_restaurants_data(driver, urls)
+    combine_restaurants_to_csv(restaurants_data, "csv_test.csv")
+
+    driver.quit()
+if __name__ == "__main__":
+    main()  
