@@ -41,9 +41,14 @@ def read_restaurant_urls(file) -> List[str]:
 
 def get_restaurants_data(driver, urls: List[str]) -> List[Dict[str, str]]:
     restaurants: List[Restaurant] = []
+    cookies_accepted = False
+
     for url in urls:
         restaurant: Restaurant = Restaurant(driver, url)
-        accept_cookies(driver)
+        if not cookies_accepted:
+            accept_cookies(driver)
+            cookies_accepted = True
+            
         restaurant_dict = restaurant.fetch_restaurant_data()
         restaurants.append(restaurant_dict)
     
