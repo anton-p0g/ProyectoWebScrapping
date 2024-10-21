@@ -64,9 +64,8 @@ class Restaurant:
     def get_coordinates(self) -> Tuple[str, str]:
         # Anton
         try:
-            map_path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[3]/div[3]/a'
-            map_element = WebDriverWait(self.driver, 15).until(
-                EC.presence_of_element_located((By.XPATH, map_path)))
+            map_path: str = '//*[@id="full-site-content"]//div[@class="relative rounded-xl overflow-hidden border border-gray-300 max-h-[120px] sm:max-h-[170px] md:mt-[84px] md:max-h-[200px]"]/a'
+            map_element = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, map_path)))
 
             href: str = map_element.get_attribute("href")
 
@@ -115,7 +114,7 @@ class Restaurant:
     def get_bookmarks(self) -> int:
         # Anton
         try:
-            path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[1]/div[1]/ul/li[2]/div[3]/span'
+            path: str = '//ul[@class="md:order-0 lg:-mt-1"]//span[@class="favorite-badge leading-7 align-middle inline-flex text-sm text-gray-500"]'
             bookmarks = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, path)))
         except:
             return ""    
@@ -142,6 +141,8 @@ class Restaurant:
 
     def get_telephone_number(self) -> str:
         # Pablo
+        # NO Siempre funciona!
+        # Ejemplo: "https://www.happycow.net/reviews/relish-bar-madrid-388770"
         path: str = '//*[@id="full-site-content"]/div[3]/div[2]/div/div[2]/div[1]/div[1]/div[4]/ul/li[3]/a/span'
         try:
             telefono = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, path)))
@@ -154,7 +155,6 @@ class Restaurant:
     def get_restaurant_website(self) -> str:
         '''
         # Anton
-        Hacer un try except por si no existe un sitio web del restaurante
         '''
         website_path: str = '//a[contains(text(), "Website")]'
         try:
@@ -227,4 +227,3 @@ class Restaurant:
             return timetable
         except:
             return ""
-    

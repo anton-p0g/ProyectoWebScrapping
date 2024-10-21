@@ -15,12 +15,21 @@ def set_up_driver() -> webdriver:
 
 
 def accept_cookies(driver: webdriver):
-    path: str = '//*[@id="web-listing"]/div[3]/div/div[2]/div[3]/div/div[2]'
-    accept_button = WebDriverWait(driver, 15).until(
-        EC.presence_of_element_located((By.XPATH, path)))
-    accept_button.click()
-
-
+    # Existen dos diferentes pop-ups para aceptar cookies
+    try:
+        path: str = '//*[@id="web-listing"]/div[3]/div/div[2]/div[3]/div/div[2]'
+        accept_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, path)))
+        accept_button.click()
+        print("First cookie popup accepted")
+    except:
+        print("First cookie popup not found -- Trying second type cookie")
+        try:
+            path2: str = '//button[@class="fides-banner-button fides-banner-button-primary fides-accept-all-button"]'
+            accept_button2 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, path2)))[0]
+            accept_button2.click()
+            print("Second cookie popup accepted")
+        except:
+            print("Second cookie popup not found")
 
 def read_restaurant_urls(file) -> List[str]:
     '''
@@ -43,12 +52,12 @@ def combine_restaurants_to_csv(restaurants: List[Dict[str, str]]):
 # ---- Para hacer testing ---- #
 driver: webdriver = set_up_driver()
 
-url = "https://www.happycow.net/reviews/distrito-vegano-invernadero-madrid-284035"
+url = "https://www.happycow.net/reviews/viva-chapata-madrid-34396"
 
 resturant: Restaurant = Restaurant(driver, url)
 accept_cookies(driver)
 
-rest_dict = resturant.fetch_restaurant_data()
+rest_dict = resturant.get_timetable()
 print(rest_dict)
 
 driver.quit()   
