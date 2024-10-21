@@ -24,7 +24,7 @@ class Restaurant:
         restaurant["Lat"] = coordinates[0]
         restaurant["Long"] = coordinates[1]
         restaurant["Number of Ratings"] = self.get_total_rating()
-        restaurant["Number of Ratings"] = self.get_rating()
+        restaurant["Restaurant Rating"] = self.get_rating()
         restaurant["Type of Restaurant"] = self.get_type_restaurant()
         restaurant["Number of Bookmarks"] = self.get_bookmarks()
         restaurant["Price Range"] = self.get_price_range()
