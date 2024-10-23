@@ -33,6 +33,14 @@ def accept_cookies(driver: webdriver):
         except:
             print("Second cookie popup not found")
 
+def scroll_to_avoid_ad(driver: webdriver):
+    sleep(3)
+    try:
+        sleep(5)
+        driver.execute_script("window.scrollTo(0, 70);")
+    except Exception as e:
+        print(f"Error al scrollear: {e}")
+
 
 def read_restaurant_urls(file) -> List[str]:
     with open(file, 'r') as file:
@@ -49,7 +57,7 @@ def get_restaurants_data(driver, urls: List[str]) -> List[Dict[str, str]]:
         if not cookies_accepted:
             accept_cookies(driver)
             cookies_accepted = True
-            
+        scroll_to_avoid_ad(driver)
         restaurant_dict = restaurant.fetch_restaurant_data()
         sleep(10) # Espera para evitar ser detectados como bots
         restaurants.append(restaurant_dict)
