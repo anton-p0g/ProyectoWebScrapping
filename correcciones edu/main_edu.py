@@ -90,7 +90,7 @@ def combine_restaurants_to_csv(restaurants_data: List[Dict[str, str]], csv_filen
 # combine_restaurants_to_csv(restaurant_list, "ABC")
 
 def main():
-    urls = read_restaurant_urls("urls_very_small.txt")
+    urls = read_restaurant_urls("urls_small.txt")
     driver: webdriver = set_up_driver() 
 
     restaurants_data = get_restaurants_data(driver, urls)
