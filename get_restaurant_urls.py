@@ -1,15 +1,10 @@
 import time
-from typing import List
 from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
-from typing import List, Dict, Tuple
+from typing import List
 
-from main import accept_cookies
 
 # Como solo queremos un archivo que contiene todos los urls de nuestros restuarantes, este script solo
 # se va a ejecutar una vez.
@@ -46,9 +41,9 @@ def apply_filters(driver: webdriver, list_filters: List[str]):
         time.sleep(1.5)
 
 
-def get_urls(driver: webdriver, clase_a: str) -> List[str]:
+def get_urls(driver: webdriver, clase: str) -> List[str]:
     result: List[str] = []
-    paginas_web = driver.find_elements(By.CLASS_NAME, clase_a)
+    paginas_web = driver.find_elements(By.CLASS_NAME, clase)
     contador_pagina: int = 1
     ultimo_elemento: int = 10
 
@@ -69,7 +64,7 @@ def get_urls(driver: webdriver, clase_a: str) -> List[str]:
             flecha = WebDriverWait(driver, 15).until(
                 EC.presence_of_element_located((By.XPATH, path_flecha))
             )
-            paginas_web = driver.find_elements(By.CLASS_NAME, clase_a)
+            paginas_web = driver.find_elements(By.CLASS_NAME, clase)
         contador_pagina += 1
 
     return result
@@ -81,8 +76,11 @@ def create_file_restaurant_urls(urls: List[str]):
     POST: it creates a file with all urls
     """
     with open("fichero_url.txt", "w") as file:
-        for url in urls:
-            file.writelines(f"{url}\n")
+        for url_idx in range(len(urls)):
+            if url_idx == len(urls)-1:
+                file.writelines(f"{urls[url_idx]}")
+            else:
+                file.writelines(f"{urls[url_idx]}\n")
 
 
 

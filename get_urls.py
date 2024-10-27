@@ -1,39 +1,27 @@
-import time
-import re
-import unittest
-from typing import List
-from selenium import webdriver
-from selenium.webdriver.chrome.service import Service
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.chrome.options import Options
-from selenium.webdriver.support import expected_conditions as EC
-from time import sleep
-from typing import List, Dict, Tuple
-
 from main import accept_cookies, set_up_driver
 from get_restaurant_urls import *
 
 
-def prueba1():
+def prueba():
     try:
         url = "https://www.happycow.net/"
         driver = set_up_driver()
         driver.get(url)
-        time.sleep(2)
-        path: str = "/html/body/div[3]/div/div[2]/div[3]/div/div[2]"
-        accept_cookies(driver, path)
+        accept_cookies(driver)
         time.sleep(3)
         ciudad: str = "Madrid, Spain"
+
         """
         Una vez accedido a la pagina web, procedemos a buscar la ciudad de Madrid
         """
+
         search_city(driver, ciudad)
         print("Ha funcionado 1")
 
         """
         Una vez accedido a la pagina de nuestra ciudad, aplicamos los filtros. Debemos tener la lista que contenga el filtro y los filtros
         """
+
         time.sleep(3)
         lista_filtros: List[str] = ["//button[@id='filter-btn']",
                                     "/html/body/div[1]/div[1]/div[3]/div[1]/div[1]/div[2]/form/div[2]/div/div/div[5]/div[2]/div/div/div[1]/div/div[1]/button",
@@ -55,28 +43,9 @@ def prueba1():
         print("Ha funcionado 2")
         time.sleep(3)
 
-    except Exception as e:
-        print("No furula")
-
-    finally:
-        driver.quit()
-
-
-def prueba2():
-    try:
-        url = "https://www.happycow.net/searchmap?s=3&location=Madrid%2C+Spain&filters=vegan-vegetarian-vegfriendly-chains-bakery-catering-coffee-delivery-foodtruck-icecream-juicebar&metric=km&limit=81&order=default&lat=40.38532392817201&lng=-3.664627075195313&zoom=12&page=1&bb=40.222664983810056%2C-3.832511901855469%2C40.547982872533964%2C-3.4967422485351567&radius=0"
-        driver = set_up_driver()
-        driver.get(url)
-        time.sleep(2)
-        path: str = "/html/body/div[3]/div/div[2]/div[3]/div/div[2]"
-        accept_cookies(driver, path)
-
-        time.sleep(3)
-
         class_a = "thumbnail-link"
         lista_url = get_urls(driver, class_a)
-        print(lista_url)
-        print(len(lista_url))
+        create_file_restaurant_urls(lista_url)
 
 
     except Exception as e:
@@ -89,5 +58,4 @@ def prueba2():
 
 
 if __name__ == "__main__":
-    prueba1()
-    prueba2()
+    prueba()
