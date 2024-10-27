@@ -1,3 +1,5 @@
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -19,6 +21,7 @@ class Restaurant:
         restaurant = dict()
         restaurant["id"] = self.id
         restaurant["Name"] = self.get_name()
+        time.sleep(0.7)
         restaurant["Address"] = self.get_address()
         coordinates = self.get_coordinates() 
         restaurant["Lat"] = coordinates[0]
@@ -52,15 +55,12 @@ class Restaurant:
     def get_address(self) -> str:
         # Edu
         try:
-            calle = self.driver.find_element(By.XPATH, "//span[@itemprop='streetAddress']").get_attribute("textContent")
-            ciudad = self.driver.find_element(By.XPATH, "//span[@itemprop='addressLocality']").get_attribute("textContent")
-            pais = self.driver.find_element(By.XPATH, "//span[@itemprop='addressCountry']").get_attribute("textContent")
-            codigo_postal = self.driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
-
-            direccion = calle + ", " + ciudad + ", " + pais + ", " + codigo_postal
+            address = [self.obtain_street(), self.obtain_city(), self.obtain_country(), self.obtain_post()]
+            direccion = ",".join(list(filter(lambda x: x is not None, address)))
             return direccion
         except:
             return ""
+
 
     def get_coordinates(self) -> Tuple[str, str]:
         # Anton
@@ -74,9 +74,9 @@ class Restaurant:
             coordinates: re.Match = re.search(pattern, href)
             lat: str = coordinates.group("lat")
             long: str = coordinates.group("long")
+            return (lat, long)
         except:
-            return ""
-        return (lat, long)
+            return "",""
 
     def get_total_rating(self) -> int:
         # Edu
@@ -86,10 +86,10 @@ class Restaurant:
             if not ratings:
                 return 0
             else:
-                ratings_limpio = re.sub(r"[()]", "", ratings[0].text)
+                ratings_limpio = re.sub(r"[\\)\\( ]", "", ratings[0].text)
                 return int(ratings_limpio)
         except Exception as e:
-            print(f"Error al obtener el número de reviews: {e}")
+            print(f"Error al obtener los reviews: {e}")
 
     def get_rating(self) -> float:
         # Edu
@@ -221,12 +221,14 @@ class Restaurant:
             for dia in dias:
                 horario_dict.setdefault(dia, "Closed")
             self.scroll_to_avoid_ad()
+            time.sleep(1)
             boton_expandir = self.driver.find_elements(By.XPATH,
                                                   "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']")
             if not boton_expandir:
                 return {"Horario": "No hay horario"}
             else:
                 boton_expandir[1].click()
+                time.sleep(1)
                 horario_html = self.driver.find_elements(By.XPATH,
                                                     "//ul[@class = 'hours-list group flex flex-col open']/child::*")
                 for elem in horario_html:
@@ -252,3 +254,31 @@ class Restaurant:
             self.driver.execute_script("window.scrollTo(0, 70);")
         except Exception as e:
             print(f"Error al scrollear: {e}")
+
+    def obtain_street(self):
+        try:
+            calle = self.driver.find_element(By.XPATH, "//span[@itemprop='streetAddress']").get_attribute("textContent")
+            return calle
+        except:
+            return None
+
+    def obtain_city(self):
+        try:
+            ciudad = self.driver.find_element(By.XPATH, "//span[@itemprop='addressLocality']").get_attribute("textContent")
+            return ciudad
+        except:
+            return None
+
+    def obtain_country(self):
+        try:
+            pais = self.driver.find_element(By.XPATH, "//span[@itemprop='addressCountry']").get_attribute("textContent")
+            return pais
+        except:
+            return None
+
+    def obtain_post(self):
+        try:
+            codigo_postal = self.driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
+            return codigo_postal
+        except:
+            return None
