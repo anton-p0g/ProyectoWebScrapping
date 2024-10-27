@@ -215,7 +215,7 @@ class Restaurant:
 
     def get_timetable(self) -> Dict[str, str]:
         # Revisión Edu
-        # TODO ¡¡En algunas páginas no funciona!!
+        # Ya funciona bien
         try:
             horario_dict = dict()
             dias = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
