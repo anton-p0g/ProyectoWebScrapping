@@ -42,7 +42,6 @@ class Restaurant:
         
 
     def get_name(self) -> str:
-        # Pablo
         try:
             titulo = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located(
                 (By.XPATH, "//h1[@class='header-title text-2xl leading-normal break-words md:text-[1.75rem]  ']")))
@@ -53,7 +52,6 @@ class Restaurant:
             return ""
 
     def get_address(self) -> str:
-        # Edu
         try:
             address = [self.obtain_street(), self.obtain_city(), self.obtain_country(), self.obtain_post()]
             direccion = ",".join(list(filter(lambda x: x is not None, address)))
@@ -63,7 +61,6 @@ class Restaurant:
 
 
     def get_coordinates(self) -> Tuple[str, str]:
-        # Anton
         try:
             map_path: str = '//*[@id="full-site-content"]//div[@class="relative rounded-xl overflow-hidden border border-gray-300 max-h-[120px] sm:max-h-[170px] md:mt-[84px] md:max-h-[200px]"]/a'
             map_element = WebDriverWait(self.driver, 15).until(EC.presence_of_element_located((By.XPATH, map_path)))
@@ -79,7 +76,6 @@ class Restaurant:
             return "",""
 
     def get_total_rating(self) -> int:
-        # Edu
         try:
             ratings = self.driver.find_elements(By.XPATH,
                                                 "//span[@class='rating-reviews leading-7 text-sm text-gray-500 ml-0']")
@@ -92,7 +88,6 @@ class Restaurant:
             print(f"Error al obtener los reviews: {e}")
 
     def get_rating(self) -> float:
-        # Edu
         try:
             valoracion = self.driver.find_elements(By.XPATH, "//meta[@itemprop='ratingValue']")
             if not valoracion:
@@ -103,10 +98,6 @@ class Restaurant:
             print(f"Error al obtener la valoración: {e}")
 
     def get_type_restaurant(self) -> List[str]:
-        '''
-         # Pablo
-        A lo mejor hay que crear funciones auxiliares que filtran los diferentes tipos de restaurantes
-        '''
         types = ["Korean", "African", "American", "Asian", "Australian", "Brazilian", "British", "Caribbean", "Chinese",
                  "European", "French", "Fusion", "German", "Indian", "International", "Italian", "Japanese", "Latin",
                  "Mediterranean", "Mexican", "Middle Eastern", "Spanish", "Taiwanese", "Thai", "Vietnamese", "Western"]
@@ -124,7 +115,6 @@ class Restaurant:
 
 
     def get_bookmarks(self) -> int:
-        # Anton
         try:
             path: str = '//ul[@class="md:order-0 lg:-mt-1"]//span[@class="favorite-badge leading-7 align-middle inline-flex text-sm text-gray-500"]'
             bookmarks = self.driver.find_elements(By.XPATH, path)
@@ -137,10 +127,6 @@ class Restaurant:
 
 
     def get_price_range(self) -> str:
-        '''
-        # Edu
-        Crear una función auxiliar que convierte los iconos dollars a: Cheap, Medium, Expensive (o lo que sea)
-        '''
         try:
             cantidad_dolares = self.driver.find_elements(By.XPATH, "//*[@class='h-4.5 w-4.5 -mx-0.5 text-yellow-500']")
             if len(cantidad_dolares) == 1:
@@ -155,9 +141,6 @@ class Restaurant:
             print(f"Error al obtener el rango de precio: {e}")
 
     def get_telephone_number(self) -> str:
-        # Pablo
-        # NO Siempre funciona!
-        # Ejemplo: "https://www.happycow.net/reviews/relish-bar-madrid-388770"
         path: str = "//span[@itemprop = 'telephone']"
         try:
             telefono = self.driver.find_elements(By.XPATH, path)
@@ -170,9 +153,6 @@ class Restaurant:
 
 
     def get_restaurant_website(self) -> str:
-        '''
-        # Anton
-        '''
         website_path: str = '//a[contains(text(), "Website")]'
         try:
             website = self.driver.find_elements(By.XPATH, website_path)
@@ -199,7 +179,6 @@ class Restaurant:
     
     
     def get_facebook(self) -> str:
-        # Anton
         facebook_path: str = '//a[contains(text(), "Facebook")]'
         try:
             facebook = self.driver.find_elements(By.XPATH, facebook_path)
@@ -213,14 +192,18 @@ class Restaurant:
         
 
     def get_timetable(self) -> Dict[str, str]:
-        # Revisión Edu
-        # Ya funciona bien
+        # Pre: self.driver está inicializado y en la página del restaurante.
+        # Post: Devuelve un diccionario con el horario del restaurante por día o indica "Closed" si no está disponible algún día.
+
         try:
-            horario_dict = dict()
-            dias = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
-            for dia in dias:
-                horario_dict.setdefault(dia, "Closed")
+            timetable = dict()
+            days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+            for day in days:
+                timetable.setdefault(day, "Closed")
+
             self.scroll_to_avoid_ad()
+<<<<<<< Updated upstream
             time.sleep(1)
             boton_expandir = self.driver.find_elements(By.XPATH,
                                                   "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']")
@@ -238,17 +221,33 @@ class Restaurant:
                                                     ", ")  # Si el establecimiento tiene horario partido aparecerá un salto de línea entre las dos franjas horarias.
                     if dia.text == "Today":
                         horario_dict[datetime.datetime.today().strftime("%A")] = horas_limpio
+=======
+            expand_button_path = "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']"
+            expand_button = self.driver.find_elements(By.XPATH, expand_button_path)
+            
+            if not expand_button:
+                return {"Horario": "No hay horario"}
+            else:
+                expand_button[1].click()
+                timetable_html = self.driver.find_elements(By.XPATH, "//ul[@class = 'hours-list group flex flex-col open']/child::*")
+                
+                for elem in timetable_html:
+                    day = elem.find_element(By.XPATH, "./p[@class = 'hours-day group-[.open]:w-[105px]']")
+                    hours = elem.find_element(By.XPATH, "./div")
+                    hours_clean = hours.text.replace("\n",", ")  # Si el establecimiento tiene horario partido aparecerá un salto de línea entre las dos franjas horarias.
+                    if day.text == "Today":
+                        timetable[datetime.datetime.today().strftime("%A")] = hours_clean
+>>>>>>> Stashed changes
                     else:
-                        horario_dict[dia.text] = horas_limpio
-                return horario_dict
+                        timetable[day.text] = hours_clean
+                return timetable
 
         except Exception as e:
             print(f"Error al obtener el horario: {e}")
 
 
-    #   Métodos auxiliares
+    # Métodos auxiliares
     def scroll_to_avoid_ad(self):
-        sleep(3)
         try:
             sleep(5)
             self.driver.execute_script("window.scrollTo(0, 70);")

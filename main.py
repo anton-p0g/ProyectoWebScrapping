@@ -15,8 +15,8 @@ def set_up_driver() -> webdriver:
 
 
 def accept_cookies(driver: webdriver):
-    sleep(5)  # Esperamos a que se cargue toda la página
-    # Existen dos diferentes pop-ups para aceptar cookies
+    sleep(4)  # Wait until the whole page is loaded
+    # There are 3 different pop-ups to accept cookies
     try:
         path: str = '//*[@id="web-listing"]/div[3]/div/div[2]/div[3]/div/div[2]'
         accept_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located((By.XPATH, path)))
@@ -40,18 +40,32 @@ def accept_cookies(driver: webdriver):
                 print("Third cookie popup not found")
 
 
-
-
-def read_restaurant_urls(file, indice_inicio: int, indice_fin: int) -> List[str]:
+def read_restaurant_urls(file, start_index: int, stop_index: int) -> List[str]:
+    '''
+    PRE:    file: A text file that contains the URLs of the restaurants
+            start_index: The first url in the range
+            stop_index: The last url in the range
+    
+    POST:   Returns a list of URLs of restaurants that were read from the file given the range of URLs   
+    '''
     with open(file, 'r') as file:
         links = file.readlines()
-        links_slice = links[indice_inicio-1:indice_fin]
+        links_slice = links[start_index-1:stop_index]
     return [link.strip() for link in links_slice]
 
 
-def get_restaurants_data(driver, urls: List[str], ini_contador: int, file: str):
+def get_restaurants_data(driver, urls: List[str], ini_count: int, file_name: str):
+    '''
+    PRE:    driver: The webdriver that we use to search
+            urls: A list of urls of the restaurants
+            ini_count: The id of the first restaurant in the list
+            file_name: Name of the csv file to be created
+
+    POST:   Extracts the data from each restaurant from the list of urls and writes the data to the csv file
+    '''
+
     cookies_accepted = False
-    count: int = ini_contador
+    count: int = ini_count
     for url in urls:
         restaurant: Restaurant = Restaurant(driver, url, count)
         if not cookies_accepted:
@@ -59,12 +73,12 @@ def get_restaurants_data(driver, urls: List[str], ini_contador: int, file: str):
             cookies_accepted = True
         restaurant_dict = restaurant.fetch_restaurant_data()
         sleep(10)
-        combine_restaurants_to_csv(restaurant_dict, file)
+        combine_restaurants_to_csv(restaurant_dict, file_name)
         count += 1
 
 
 def combine_restaurants_to_csv(restaurants_data: Dict[str, str], csv_filename: str):
-    # Modificacion Pablo
+
     if restaurants_data:
         fieldnames = restaurants_data.keys()
 
@@ -80,14 +94,14 @@ def combine_restaurants_to_csv(restaurants_data: Dict[str, str], csv_filename: s
             writer.writeheader()
         writer.writerow(restaurants_data)
 
-def combinar_csvs(fichero: str, fichero_verdadero: str) -> None:
+def combinar_csvs(file: str, final_file: str):
     """
     PRE: fichero: name of the file that you want to include into the fichero_verdadero it is a csv file
-        fichero_verdadero: the final result of all ficheros it is a csv file
+         fichero_verdadero: the final result of all ficheros it is a csv file
     """
-    with open(fichero_verdadero, "a", newline="") as file_v:
+    with open(final_file, "a", newline="") as file_v:
         escritor = csv.writer(file_v)
-        with open(fichero, "r") as file:
+        with open(file, "r") as file:
             reader = csv.reader(file)
             escritor.writerows(reader)
 
