@@ -236,28 +236,28 @@ class Restaurant:
 
     def obtain_street(self):
         try:
-            calle = self.driver.find_element(By.XPATH, "//span[@itemprop='streetAddress']").get_attribute("textContent")
-            return calle
+            street = self.driver.find_element(By.XPATH, "//span[@itemprop='streetAddress']").get_attribute("textContent")
+            return street
         except:
             return None
 
     def obtain_city(self):
         try:
-            ciudad = self.driver.find_element(By.XPATH, "//span[@itemprop='addressLocality']").get_attribute("textContent")
-            return ciudad
+            city = self.driver.find_element(By.XPATH, "//span[@itemprop='addressLocality']").get_attribute("textContent")
+            return city
         except:
             return None
 
     def obtain_country(self):
         try:
-            pais = self.driver.find_element(By.XPATH, "//span[@itemprop='addressCountry']").get_attribute("textContent")
-            return pais
+            country = self.driver.find_element(By.XPATH, "//span[@itemprop='addressCountry']").get_attribute("textContent")
+            return country
         except:
             return None
 
     def obtain_post(self):
         try:
-            codigo_postal = self.driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
-            return codigo_postal
+            postal_code = self.driver.find_element(By.XPATH, "//span[@itemprop='postalCode']").get_attribute("textContent")
+            return postal_code
         except:
             return None
