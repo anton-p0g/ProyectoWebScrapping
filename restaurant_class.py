@@ -203,30 +203,11 @@ class Restaurant:
                 timetable.setdefault(day, "Closed")
 
             self.scroll_to_avoid_ad()
-<<<<<<< Updated upstream
-            time.sleep(1)
-            boton_expandir = self.driver.find_elements(By.XPATH,
-                                                  "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']")
-            if not boton_expandir:
-                return {"Horario": "No hay horario"}
-            else:
-                boton_expandir[1].click()
-                time.sleep(1)
-                horario_html = self.driver.find_elements(By.XPATH,
-                                                    "//ul[@class = 'hours-list group flex flex-col open']/child::*")
-                for elem in horario_html:
-                    dia = elem.find_element(By.XPATH, "./p[@class = 'hours-day group-[.open]:w-[105px]']")
-                    horas = elem.find_element(By.XPATH, "./div")
-                    horas_limpio = horas.text.replace("\n",
-                                                    ", ")  # Si el establecimiento tiene horario partido aparecerá un salto de línea entre las dos franjas horarias.
-                    if dia.text == "Today":
-                        horario_dict[datetime.datetime.today().strftime("%A")] = horas_limpio
-=======
             expand_button_path = "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']"
             expand_button = self.driver.find_elements(By.XPATH, expand_button_path)
             
             if not expand_button:
-                return {"Horario": "No hay horario"}
+                return {"Horario": "No Timetable"}
             else:
                 expand_button[1].click()
                 timetable_html = self.driver.find_elements(By.XPATH, "//ul[@class = 'hours-list group flex flex-col open']/child::*")
@@ -237,7 +218,6 @@ class Restaurant:
                     hours_clean = hours.text.replace("\n",", ")  # Si el establecimiento tiene horario partido aparecerá un salto de línea entre las dos franjas horarias.
                     if day.text == "Today":
                         timetable[datetime.datetime.today().strftime("%A")] = hours_clean
->>>>>>> Stashed changes
                     else:
                         timetable[day.text] = hours_clean
                 return timetable
@@ -246,7 +226,7 @@ class Restaurant:
             print(f"Error al obtener el horario: {e}")
 
 
-    # Métodos auxiliares
+    # Auxiliary Methods
     def scroll_to_avoid_ad(self):
         try:
             sleep(5)

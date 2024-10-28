@@ -118,18 +118,10 @@ def main():
     numero_urls = [133, 170, 205, 240]
     indice_fin = list(map(lambda x, y: x+y-1, indice_inicio, numero_urls))
 
-<<<<<<< HEAD
     urls: List[str] = read_restaurant_urls("fichero_url.txt", 401, 405)
     print(urls)
     driver: webdriver = set_up_driver()
     get_restaurants_data(driver, [urls[4]], 405,f"ficheros_csv/restaurants_{401}_{405}.csv")
-=======
-    urls: List[str] = read_restaurant_urls("fichero_url.txt", 728, indice_fin[3])
-    print(urls)
-    driver: webdriver = set_up_driver()
-    get_restaurants_data(driver, urls, 728,f"ficheros_csv/restaurants_{indice_inicio[3]}_{indice_fin[3]}.csv")
-
->>>>>>> adf398a33293ab0a4dd51133dd7449b92736d012
     """
     Para combinar los ficheros
     

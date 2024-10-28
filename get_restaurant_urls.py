@@ -6,13 +6,6 @@ from selenium.webdriver.support import expected_conditions as EC
 from typing import List
 
 
-# Como solo queremos un archivo que contiene todos los urls de nuestros restuarantes, este script solo
-# se va a ejecutar una vez.
-# Crea un archivo txt con los urls
-
-# Jose
-
-
 def search_city(driver: webdriver, city: str):
     """
     PRE:    driver: The webdriver that we use to search
