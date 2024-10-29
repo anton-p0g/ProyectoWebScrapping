@@ -14,7 +14,7 @@ Este proyecto realiza la extracción automatizada de datos del sitio web [Happy 
 
 
 
-1. Introducción
+## 1. Introducción
 
 En este proyecto hemos diseñado y desarrollado un sistema de web scraping para navegar por un conjunto de URLs de restaurantes, extraer los datos importantes y organizarlos en un formato estructurado. 
 
@@ -27,7 +27,8 @@ La funcionalidad general del sistema incluye:
 * Extracción de datos relevantes
 * Manejo de errores: Control de errores para sitios web inaccesibles o elementos faltantes en las páginas.
 * Almacenamiento de los datos: Los datos recolectados se guardan en un archivo CSV para análisis posterior.
-2. Retos y Soluciones
+
+## 2. Retos y Soluciones
 
 
 ### Búsqueda de Sitio Web 
@@ -49,7 +50,7 @@ Después de investigar, descubrimos que este segundo pop-up tenía una estructur
 
 El tercer tipo de pop-up correspondía a la página principal de Happy Cow, mientras que el primer tipo de pop-up aparecía en las páginas de los restaurantes individuales. La solución final en el código fue la creación de tres bloques anidados de try except que prueba los tres tipos de cookies. 
 
-Banner publicitario
+### Banner publicitario
 
 También nos encontramos con la siguiente dificultad a la hora de extraer los datos: en la página web de cada restaurante aparece un banner publicitario en la parte inferior de la página que podía interferir con la acción del driver de hacer clic en el desplegable del horario, al estar el anuncio encima del botón del desplegable, especialmente cuando se ejecuta el código en un ordenador portátil, cuya pantalla es pequeña y hace que la ventana del navegador también lo sea. 
 
@@ -58,7 +59,7 @@ Lo primero que se nos ocurrió para solucionar esto es cerrar el anuncio, ya que
 Con lo cual, debido a la complejidad que podría suponer el código para cerrar el anuncio, decidimos optar por una solución más sencilla pero igual de efectiva, que era, antes de hacer clic al desplegable del horario, incluir una línea de código que ejecuta una línea de JavaScript que hace que un pequeño scroll (de 70 píxeles) en la ventana, de forma que el anuncio no tapa el botón de desplegar el horario y así, el driver podía hacer clic a éste correctamente y recopilar la información del horario.
 
 
-## Modo headless
+### Modo headless
 
 Selenium ofrece una opción llamada –headless que permite ejecutar el navegador Chrome sin abrir la ventana visible, lo que puede acelerar la ejecución del código al reducir el consumo de recursos. Esta opción es útil en muchas aplicaciones de web scraping, especialmente para automatizaciones en segundo plano o en servidores sin interfaz gráfica.
 
@@ -67,19 +68,19 @@ Sin embargo, en nuestro caso no funcionó de forma óptima. Dado que nuestro pro
 Por este motivo, decidimos no usar el modo headless y optamos por monitorear visualmente la ejecución, lo cual nos permitió identificar y solucionar posibles errores en tiempo real.
 
 
-## XPath Absoluto vs Relativo
+### XPath Absoluto vs Relativo
 
 Al principio, usamos XPaths absolutos para seleccionar elementos, ya que era la forma más directa y rápida de acceder a ellos. No obstante, nos dimos cuenta de que esta estrategia no era óptima a largo plazo. En algunos sitios web de restaurantes, la estructura de la página variaba ligeramente, lo que causaba que el código fallara al no encontrar los elementos esperados.
 
 Para resolver este problema, convertimos la mayoría de nuestros XPaths a rutas relativas. Este cambio permitió que el código fuera más flexible, encontrando los elementos de forma dinámica y adaptándose mejor a posibles cambios estructurales en las páginas. Aunque requirió tiempo y ajustes, esta experiencia nos ayudó a mejorar nuestras habilidades en la creación de XPaths y a hacer el código más robusto.
 
-Añadido dinámico al CSV
+### Añadido dinámico al CSV
 
 El último problema que nos surgió fue relacionado con la obtención del resultado final. Cuando ejecutábamos “main.py”, el CSV se escribía cuando se habían obtenido todos los datos de todos los restaurantes en el fichero de URLs. Esto causaba que, en caso de fallo del script, perdíamos todo el progreso realizado. Para ello, modificamos la función que escribe los datos de los restaurantes en el archivo CSV, de forma que, una vez obtenido los datos de un restaurante, los escribe en el CSV antes de empezar a recolectar los datos del siguiente restaurante. De esta forma, en caso de fallo, podemos retomar la ejecución del script en el punto donde ocurrió el fallo.
 
 
 
-3. Estructura
+## 3. Estructura
 
 main.py: Este es el archivo principal que ejecuta el proceso de extracción de datos de los restaurantes. Optamos por realizar el scraping en batches (bloques) debido a la gran cantidad de URLs, lo cual hacía que el proceso fuera largo si se realizaba de una sola vez. Trabajar por batches también permitió distribuir el trabajo entre los cuatro miembros del equipo, lo que aceleró considerablemente la recolección de datos y evitó sobrecargar el sistema.
 
@@ -93,7 +94,7 @@ fichero_url.txt: este fichero es obtenido con “get_urls.py” y contiene las U
 
 
 
-4. Requisitos
+## 4. Requisitos
 
 Es necesario tener instalado la librería de selenium:
 
@@ -103,7 +104,7 @@ pip install webdriver_manager
 
 
 
-5. Configuración
+## 5. Configuración
 
 Clonar el repositorio o descargar los archivos.
 
@@ -113,7 +114,7 @@ Asegurarse de tener el navegador compatible instalado.
 
 
 
-6. Instrucciones de Uso
+## 6. Instrucciones de Uso
 
 Para el correcto funcionamiento de los scripts, deberemos tener en el mismo directorio los ficheros “get_urls.py”, “get_urls_functions.py”, “restaurant_class.py” y “main.py”. También es muy importante **dejar en primer plano la ventana del navegador** que se abre al ejecutar los scripts, ya que en el caso de que esta ventana esté detrás de otra, minimizada o en segundo plano puede generar problemas a la hora de extraer los datos.
 
@@ -127,7 +128,7 @@ Para el correcto funcionamiento de los scripts, deberemos tener en el mismo dire
 
     Una vez obtenido el fichero con las URLs, ejecutaremos “main.py”. Este script es el encargado de extraer los datos de todas las páginas web que se encuentran en “fichero_url.txt”. Una vez acabada la ejecución del script, obtendremos un fichero llamado “restaurants.csv” con toda la información recopilada de todos los restaurantes.
 
-7. Output
+## 7. Output
 
 El output final para este proyecto es el fichero csv restaurants.csv con la información de todos los restaurantes. Está compuesto por los siguientes campos:
 
