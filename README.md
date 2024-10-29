@@ -33,13 +33,13 @@ La funcionalidad general del sistema incluye:
 
 ### Búsqueda de Sitio Web 
 
-Inicialmente, elegimos Tripadvisor como nuestro sitio web preferido para hacer web scraping, ya que es una de las plataformas más grandes con una cantidad significativa de datos interesantes sobre restaurantes. Sin embargo, nos encontramos rápidamente con un obstáculo: fuimos detectados como bots, lo que resultó en el bloqueo de nuestra IP y la aparición constante de captchas, haciendo imposible continuar el scraping. Intentamos explorar otras alternativas como Yelp y The Fork, pero obtuvimos resultados similares, enfrentándonos nuevamente a sistemas anti-scraping.
-
-Probamos varias técnicas para evadir estos bloqueos, incluyendo la modificación de User-Agents, la implementación de esperas dinámicas en el código para simular un comportamiento más humano, y el uso de proxies para evitar el bloqueo de IPs. Sin embargo, ninguna de estas soluciones resultó efectiva a largo plazo. Además, los proxies gratuitos que encontramos online no funcionaban adecuadamente, y no tuvimos acceso a servicios premium como Bright Data, que ofrecen soluciones profesionales pero son de pago.
+Inicialmente, elegimos Tripadvisor como nuestro sitio web preferido para hacer web scraping, ya que es una de las plataformas más grandes con una cantidad significativa de datos interesantes sobre restaurantes. Sin embargo, nos encontramos rápidamente con un obstáculo: fuimos detectados como bots, lo que resultó en el bloqueo de nuestra IP y la aparición constante de captchas, haciendo imposible continuar el scraping. Intentamos explorar otras alternativas como Yelp y The Fork, pero nuevamente nos enfrentamos a sistemas anti-scraping.
 
 La razón principal detrás de estos obstáculos es que muchas de estas grandes plataformas, como Tripadvisor, implementan sistemas robustos contra bots, y esto se refleja claramente en sus políticas de robots.txt, que prohíben la extracción automatizada de datos.
 
-Finalmente, encontramos un sitio web alternativo: Happy Cow, una plataforma centrada en restaurantes y cafeterías veganas y vegetarianas, cuya estructura era muy similar a la de Tripadvisor. Afortunadamente, Happy Cow tiene una política menos restrictiva hacia los bots, lo que lo convirtió en la opción ideal para nuestro proyecto.
+Probamos varias técnicas para evadir estos bloqueos, incluyendo la modificación de User-Agents, la implementación de esperas dinámicas en el código para simular un comportamiento más humano, y el uso de proxies para evitar el bloqueo de IPs. Sin embargo, ninguna de estas soluciones resultó efectiva. Además, los proxies gratuitos que encontramos online no funcionaban adecuadamente, y no teníamos acceso a servicios premium como Bright Data, que ofrecen soluciones profesionales pero son de pago.
+
+Finalmente, encontramos un sitio web alternativo: Happy Cow, una plataforma centrada en restaurantes y cafeterías veganas y con opciones veganas, cuya estructura era muy similar a la de Tripadvisor. Afortunadamente, Happy Cow tiene una política menos restrictiva con los bots, lo que lo convirtió en la opción ideal para nuestro proyecto.
 
 
 ### Aceptación de cookies
@@ -50,22 +50,14 @@ Después de investigar, descubrimos que este segundo pop-up tenía una estructur
 
 El tercer tipo de pop-up correspondía a la página principal de Happy Cow, mientras que el primer tipo de pop-up aparecía en las páginas de los restaurantes individuales. La solución final en el código fue la creación de tres bloques anidados de try except que prueba los tres tipos de cookies. 
 
+
 ### Banner publicitario
 
-También nos encontramos con la siguiente dificultad a la hora de extraer los datos: en la página web de cada restaurante aparece un banner publicitario en la parte inferior de la página que podía interferir con la acción del driver de hacer clic en el desplegable del horario, al estar el anuncio encima del botón del desplegable, especialmente cuando se ejecuta el código en un ordenador portátil, cuya pantalla es pequeña y hace que la ventana del navegador también lo sea. 
+Otra de las dificultades a la hora de extraer los datos: en la página web de cada restaurante aparece un banner publicitario en la parte inferior de la página que podía interferir con la acción del driver de hacer clic en el desplegable del horario, al estar el anuncio encima del botón del desplegable, especialmente cuando se ejecuta el código en un ordenador portátil, cuya pantalla es pequeña y hace que la ventana del navegador también lo sea. 
 
-Lo primero que se nos ocurrió para solucionar esto es cerrar el anuncio, ya que el banner dispone de un botón para ello, pero vimos que para acceder al anuncio era necesario cambiar el driver al iframe en el cual el anuncio se encontraba, y aun así, la acción de hacer clic en el botón de cerrar el anuncio no funcionaba correctamente. Y no solo eso, sino que también, mientras hacíamos pruebas al código, vimos que ocasionalmente el proveedor de publicidad que mostraba el anuncio no era siempre el mismo, de forma que conseguimos identificar 3 iframes distintos pertenecientes a diferentes servicios de publicidad con estructuras distintas que podían aparecer de manera aleatoria al cargar la página web. 
+Lo primero que se nos ocurrió para solucionar esto fue cerrar el anuncio, ya que el banner dispone de un botón para ello, pero vimos que para acceder al anuncio era necesario cambiar el driver al iframe en el cual el anuncio se encontraba, y aun así, la acción de hacer clic en el botón de cerrar el anuncio no funcionaba correctamente. Y no solo eso, sino que también, mientras hacíamos pruebas al código, vimos que ocasionalmente el proveedor de publicidad que mostraba el anuncio no era siempre el mismo, de forma que conseguimos identificar 3 iframes distintos pertenecientes a diferentes servicios de publicidad con estructuras distintas que podían aparecer de manera aleatoria al cargar la página web. 
 
-Con lo cual, debido a la complejidad que podría suponer el código para cerrar el anuncio, decidimos optar por una solución más sencilla pero igual de efectiva, que era, antes de hacer clic al desplegable del horario, incluir una línea de código que ejecuta una línea de JavaScript que hace que un pequeño scroll (de 70 píxeles) en la ventana, de forma que el anuncio no tapa el botón de desplegar el horario y así, el driver podía hacer clic a éste correctamente y recopilar la información del horario.
-
-
-### Modo headless
-
-Selenium ofrece una opción llamada –headless que permite ejecutar el navegador Chrome sin abrir la ventana visible, lo que puede acelerar la ejecución del código al reducir el consumo de recursos. Esta opción es útil en muchas aplicaciones de web scraping, especialmente para automatizaciones en segundo plano o en servidores sin interfaz gráfica.
-
-Sin embargo, en nuestro caso no funcionó de forma óptima. Dado que nuestro proceso incluía múltiples interacciones dinámicas con elementos de la página, observamos que Selenium no siempre ejecutaba el código correctamente en este modo. Esto podría deberse a problemas con la carga y visualización de ciertos elementos cuando no hay una ventana visible.
-
-Por este motivo, decidimos no usar el modo headless y optamos por monitorear visualmente la ejecución, lo cual nos permitió identificar y solucionar posibles errores en tiempo real.
+Con lo cual, debido a la complejidad que podría suponer el código para cerrar el anuncio, decidimos optar por una solución más sencilla pero igual de efectiva, que era, antes de hacer clic al desplegable del horario, incluir una línea de código que ejecuta una línea de JavaScript que hace que un pequeño scroll (de 70 píxeles) en la ventana, de forma que el anuncio no tape el botón de desplegar el horario y así, el driver podía hacer clic a éste correctamente y recopilar la información del horario.
 
 
 ### XPath Absoluto vs Relativo
@@ -73,6 +65,7 @@ Por este motivo, decidimos no usar el modo headless y optamos por monitorear vis
 Al principio, usamos XPaths absolutos para seleccionar elementos, ya que era la forma más directa y rápida de acceder a ellos. No obstante, nos dimos cuenta de que esta estrategia no era óptima a largo plazo. En algunos sitios web de restaurantes, la estructura de la página variaba ligeramente, lo que causaba que el código fallara al no encontrar los elementos esperados.
 
 Para resolver este problema, convertimos la mayoría de nuestros XPaths a rutas relativas. Este cambio permitió que el código fuera más flexible, encontrando los elementos de forma dinámica y adaptándose mejor a posibles cambios estructurales en las páginas. Aunque requirió tiempo y ajustes, esta experiencia nos ayudó a mejorar nuestras habilidades en la creación de XPaths y a hacer el código más robusto.
+
 
 ### Añadido dinámico al CSV
 
@@ -82,26 +75,28 @@ El último problema que nos surgió fue relacionado con la obtención del result
 
 ## 3. Estructura
 
-main.py: este es el archivo principal que ejecuta el proceso de extracción de datos de los restaurantes. Optamos por realizar el scraping en batches (bloques) debido a la gran cantidad de URLs, lo cual hacía que el proceso fuera largo si se realizaba de una sola vez. Trabajar por batches también permitió distribuir el trabajo entre los cuatro miembros del equipo, lo que aceleró considerablemente la recolección de datos y evitó sobrecargar el sistema.
+- **main.py**: este es el archivo principal que ejecuta el proceso de extracción de datos de los restaurantes. Optamos por realizar el scraping en batches (bloques) debido a la gran cantidad de URLs, lo cual hacía que el proceso fuera largo si se realizaba de una sola vez. Trabajar por batches también permitió distribuir el trabajo entre los cuatro miembros del equipo, lo que aceleró considerablemente la recolección de datos y evitó sobrecargar el sistema.
 
-restaurant_class.py: este archivo implementa la clase Restaurant, que encapsula todas las funciones necesarias para extraer información de la página web de cada restaurante. Dentro de main.py, una vez se instancia la clase Restaurant, se puede llamar al método fetch_restaurant_data(), que obtiene toda la información deseada del restaurante y devuelve un diccionario con los datos extraídos, listo para ser procesado o guardado.
+- **restaurant_class.py**: este archivo implementa la clase Restaurant, que encapsula todos los métodos necesarios para extraer información de la página web de cada restaurante. Dentro de main.py, una vez instanciada la clase Restaurant, se puede llamar al método fetch_restaurant_data(), que obtiene toda la información deseada del restaurante y devuelve un diccionario con los datos extraídos, listo para ser procesado o guardado.
 
-get_urls.py: este archivo usa las funciones de “get_urls_functions.py” para obtener las URLs de los restaurantes cuyos datos queremos recolectar. Para ello, el driver se inicia en la página principal de HappyCow, acepta las cookies (puede tardar un poco), introduce “Madrid, Spain” en la barra de búsqueda y hace clic para buscar. Luego, se aplican ciertos filtros para seleccionar los restaurantes que nos interesan, se reduce el mapa para abarcar un mayor área de búsqueda y aplicamos los filtros. Ahora, el driver irá recolectando las URLs de todos los resultados y los incluirá en el fichero "fichero_url.txt".
+- **get_urls.py**: este archivo usa las funciones de “get_urls_functions.py” para obtener las URLs de los restaurantes cuyos datos queremos recolectar. Para ello, el driver se inicia en la página principal de HappyCow, acepta las cookies (puede tardar un poco), introduce “Madrid, Spain” en la barra de búsqueda y hace clic para buscar. Luego, se aplican ciertos filtros para seleccionar los restaurantes que nos interesan, se reduce el mapa para abarcar un mayor área de búsqueda y aplicamos los filtros. Ahora, el driver irá recolectando las URLs de todos los resultados y los incluirá en el fichero "fichero_url.txt".
 
-get_urls_functions.py: este fichero contiene las funciones que usará "get_urls.py" para obtener las URLs de los restaurantes. Estas funciones se encargan de introducir en el campo de búsqueda de la página web la ciudad a buscar, aplica los filtros que nosotros deseemos, obtiene las URLs y las incluye en un fichero txt.
+- **get_urls_functions.py**: este fichero contiene las funciones que usará "get_urls.py" para obtener las URLs de los restaurantes. Estas funciones se encargan de introducir en el campo de búsqueda de la página web la ciudad a buscar, aplica los filtros que nosotros deseemos, obtiene las URLs y las incluye en un fichero txt.
 
-fichero_url.txt: este fichero es obtenido con “get_urls.py” y contiene las URLs de las páginas de los restaurantes en HappyCow. Luego este fichero será usado por “main.py” para obtener los datos de los restaurantes contenidos en el fichero.
+- **fichero_url.txt**: este fichero es obtenido con “get_urls.py” y contiene las URLs de las páginas de los restaurantes en HappyCow. Luego este fichero será usado por “main.py” para obtener los datos de los restaurantes contenidos en el fichero.
 
-ficheros_csv: este directorio contiene los cuatro batches de los csv de los restaurantes y un fichero con los cuatro batches combinados.
+- **ficheros_csv**: este directorio contiene los cuatro batches de los csv de los restaurantes y un fichero con los cuatro batches combinados.
+
+
 
 ## 4. Requisitos
 
 Es necesario tener instalado la librería de selenium:
 
+```bash
 pip install selenium
-
 pip install webdriver_manager
-
+```
 
 
 ## 5. Configuración
@@ -130,23 +125,23 @@ Para el correcto funcionamiento de los scripts, deberemos tener en el mismo dire
 
 ## 7. Output
 
-El output final para este proyecto es el fichero csv restaurants.csv con la información de todos los restaurantes. Está compuesto por los siguientes campos:
+El output final para este proyecto es el fichero csv restaurants.csv con la información de todos los restaurantes, el cual está compuesto por los siguientes campos:
 
 
 
-* id: número identificativo del restaurante en el .csv.
-* Name: nombre del restaurante.
-* Address: dirección de restaurante.
-* Lat: latitud en la que se encuentra el restaurante.
-* Long: longitud en la que se encuentra el restaurante
-* Number of ratings: número de reseñas que tiene el restaurante.
-* Restaurant rating: número de estrellas (de 0 a 5) que tiene el restaurante, basado en las reseñas.
-* Type of restaurant: lista con la(s) nacionalidad(es) del restaurante.
-* Number of bookmarks: número de personas que han guardado la página del restaurante.
-* Price range: rango de precio del restaurante.
-* Phone number: número de teléfono del restaurante.
-* Website: página web del restaurante.
-* Instagram: enlace a la página de instagram del restaurante.
-* Facebook: enlace a la página de facebook del restaurante.
-* Timetable: diccionario con el horario del restaurante. Las claves son los días de la semana y los valores las horas a las que el restaurante está abierto ese día.
-* Url: URL que dirige a la página del restaurante en HappyCow.
+* **id**: número identificativo del restaurante en el .csv.
+* **Name**: nombre del restaurante.
+* **Address**: dirección de restaurante.
+* **Lat**: latitud en la que se encuentra el restaurante.
+* **Long**: longitud en la que se encuentra el restaurante
+* **Number of ratings**: número de reseñas que tiene el restaurante.
+* **Restaurant rating**: número de estrellas (de 0 a 5) que tiene el restaurante, basado en las reseñas.
+* **Type of restaurant**: lista con la(s) nacionalidad(es) del restaurante.
+* **Number of bookmarks**: número de personas que han guardado la página del restaurante.
+* **Price range**: rango de precio del restaurante.
+* **Phone number**: número de teléfono del restaurante.
+* **Website**: página web del restaurante.
+* **Instagram**: enlace a la página de instagram del restaurante.
+* **Facebook**: enlace a la página de facebook del restaurante.
+* **Timetable**: diccionario con el horario del restaurante. Las claves son los días de la semana y los valores las horas a las que el restaurante está abierto ese día.
+* **Url**: URL que dirige a la página del restaurante en HappyCow.
