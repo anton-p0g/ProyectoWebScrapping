@@ -82,17 +82,17 @@ El último problema que nos surgió fue relacionado con la obtención del result
 
 ## 3. Estructura
 
-main.py: Este es el archivo principal que ejecuta el proceso de extracción de datos de los restaurantes. Optamos por realizar el scraping en batches (bloques) debido a la gran cantidad de URLs, lo cual hacía que el proceso fuera largo si se realizaba de una sola vez. Trabajar por batches también permitió distribuir el trabajo entre los cuatro miembros del equipo, lo que aceleró considerablemente la recolección de datos y evitó sobrecargar el sistema.
+main.py: este es el archivo principal que ejecuta el proceso de extracción de datos de los restaurantes. Optamos por realizar el scraping en batches (bloques) debido a la gran cantidad de URLs, lo cual hacía que el proceso fuera largo si se realizaba de una sola vez. Trabajar por batches también permitió distribuir el trabajo entre los cuatro miembros del equipo, lo que aceleró considerablemente la recolección de datos y evitó sobrecargar el sistema.
 
-restaurant_class.py: Este archivo implementa la clase Restaurant, que encapsula todas las funciones necesarias para extraer información de la página web de cada restaurante. Dentro de main.py, una vez se instancia la clase Restaurant, se puede llamar al método fetch_restaurant_data(), que obtiene toda la información deseada del restaurante y devuelve un diccionario con los datos extraídos, listo para ser procesado o guardado.
+restaurant_class.py: este archivo implementa la clase Restaurant, que encapsula todas las funciones necesarias para extraer información de la página web de cada restaurante. Dentro de main.py, una vez se instancia la clase Restaurant, se puede llamar al método fetch_restaurant_data(), que obtiene toda la información deseada del restaurante y devuelve un diccionario con los datos extraídos, listo para ser procesado o guardado.
 
-get_urls.py: este archivo usa las funciones de “get_urls_functions.py” para obtener las URLs de los restaurantes cuyos datos queremos recolectar. Para ello, el driver se inicia en la página principal de HappyCow, acepta las cookies (puede tardar un poco), introduce “Madrid, Spain” en la barra de búsqueda y hace clic para buscar. Luego, se aplican ciertos filtros para seleccionar los restaurantes que nos interesan, se reduce el mapa
+get_urls.py: este archivo usa las funciones de “get_urls_functions.py” para obtener las URLs de los restaurantes cuyos datos queremos recolectar. Para ello, el driver se inicia en la página principal de HappyCow, acepta las cookies (puede tardar un poco), introduce “Madrid, Spain” en la barra de búsqueda y hace clic para buscar. Luego, se aplican ciertos filtros para seleccionar los restaurantes que nos interesan, se reduce el mapa para abarcar un mayor área de búsqueda y aplicamos los filtros. Ahora, el driver irá recolectando las URLs de todos los resultados y los incluirá en el fichero "fichero_url.txt".
 
-get_urls_functions.py
+get_urls_functions.py: este fichero contiene las funciones que usará "get_urls.py" para obtener las URLs de los restaurantes. Estas funciones se encargan de introducir en el campo de búsqueda de la página web la ciudad a buscar, aplica los filtros que nosotros deseemos, obtiene las URLs y las incluye en un fichero txt.
 
 fichero_url.txt: este fichero es obtenido con “get_urls.py” y contiene las URLs de las páginas de los restaurantes en HappyCow. Luego este fichero será usado por “main.py” para obtener los datos de los restaurantes contenidos en el fichero.
 
-
+ficheros_csv: este directorio contiene los cuatro batches de los csv de los restaurantes y un fichero con los cuatro batches combinados.
 
 ## 4. Requisitos
 
