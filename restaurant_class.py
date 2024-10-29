@@ -19,7 +19,7 @@ class Restaurant:
         restaurant = dict()
         restaurant["id"] = self.id
         restaurant["Name"] = self.get_name()
-        time.sleep(0.7)
+        sleep(0.7)
         restaurant["Address"] = self.get_address()
         coordinates = self.get_coordinates() 
         restaurant["Lat"] = coordinates[0]
