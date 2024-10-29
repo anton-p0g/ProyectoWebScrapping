@@ -35,6 +35,13 @@ def apply_filters(driver: webdriver, list_filters: List[str]):
 
 
 def get_urls(driver: webdriver, clase: str) -> List[str]:
+    """
+    PRE:    driver: The webdriver that we use to search
+            clase: the class name of the web pages
+
+    POST: It gets all the web pages clicking the next page arrow, knowing that there are 10 pages.
+          It returns a list of urls
+    """
     result: List[str] = []
     paginas_web = driver.find_elements(By.CLASS_NAME, clase)
     contador_pagina: int = 1
@@ -76,13 +83,13 @@ def create_file_restaurant_urls(urls: List[str]):
                 file.writelines(f"{urls[url_idx]}\n")
 
 
-
 # funciones auxiliares
 def search_click(driver, path: str):
     """
     Auxiliary function for clicking
     PRE:    driver: The webdriver that we use to search
             path: The path of the place to click
+    POST: clicks the button we found
     """
     button = WebDriverWait(driver, 15).until(
         EC.presence_of_element_located((By.XPATH, path))
