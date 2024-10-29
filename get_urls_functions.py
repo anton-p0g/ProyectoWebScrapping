@@ -88,4 +88,3 @@ def search_click(driver, path: str):
         EC.presence_of_element_located((By.XPATH, path))
     )
     button.click()
-
