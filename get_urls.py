@@ -1,5 +1,5 @@
 from main import accept_cookies, set_up_driver
-from get_restaurant_urls import *
+from get_urls_functions import *
 
 
 def prueba():
