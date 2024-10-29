@@ -18,7 +18,7 @@ def search_city(driver: webdriver, city: str):
     )
     buscar.send_keys(city)
     time.sleep(1)
-    lupa = "/html/body/div[1]/div[1]/div[3]/div[4]/div/div/form/div/button"
+    lupa: str = "/html/body/div[1]/div[1]/div[3]/div[4]/div/div/form/div/button"
     search_click(driver, lupa)
     time.sleep(1)
 
@@ -29,6 +29,7 @@ def apply_filters(driver: webdriver, list_filters: List[str]):
 
     POST: It clicks the filter button and all the filters, then it clicks the button apply and finally it clicks the area.
     """
+    filtro: str
     for filtro in list_filters:
         search_click(driver, filtro)
         time.sleep(1.5)
@@ -47,7 +48,7 @@ def get_urls(driver: webdriver, clase: str) -> List[str]:
     contador_pagina: int = 1
     ultimo_elemento: int = 10
 
-    path_flecha = "//a[@title='Next page']"
+    path_flecha: str = "//a[@title='Next page']"
     flecha = WebDriverWait(driver, 15).until(
         EC.presence_of_element_located((By.XPATH, path_flecha))
     )
@@ -76,6 +77,7 @@ def create_file_restaurant_urls(urls: List[str]):
     POST: it creates a file with all urls
     """
     with open("fichero_url.txt", "w") as file:
+        url_idx: int
         for url_idx in range(len(urls)):
             if url_idx == len(urls)-1:
                 file.writelines(f"{urls[url_idx]}")
@@ -84,7 +86,7 @@ def create_file_restaurant_urls(urls: List[str]):
 
 
 # funciones auxiliares
-def search_click(driver, path: str):
+def search_click(driver: webdriver, path: str):
     """
     Auxiliary function for clicking
     PRE:    driver: The webdriver that we use to search

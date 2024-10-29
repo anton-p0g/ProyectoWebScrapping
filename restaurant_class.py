@@ -118,7 +118,7 @@ class Restaurant:
         # Pre: La página debe estar completamente cargada, y el elemento de tipo de restaurante debe ser visible.
         # Post: Devuelve una lista de tipos de restaurante o una lista vacía si no se encuentran.
 
-        types = ["Korean", "African", "American", "Asian", "Australian", "Brazilian", "British", "Caribbean", "Chinese",
+        types: List[str] = ["Korean", "African", "American", "Asian", "Australian", "Brazilian", "British", "Caribbean", "Chinese",
                  "European", "French", "Fusion", "German", "Indian", "International", "Italian", "Japanese", "Latin",
                  "Mediterranean", "Mexican", "Middle Eastern", "Spanish", "Taiwanese", "Thai", "Vietnamese", "Western"]
         try:
@@ -234,14 +234,14 @@ class Restaurant:
         # Post: Devuelve un diccionario con el horario del restaurante por día o indica "Closed" si no está disponible algún día.
 
         try:
-            timetable = dict()
-            days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+            timetable: Dict[str, str] = dict()
+            days: List[str] = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 
             for day in days:
                 timetable.setdefault(day, "Closed")
 
             self.scroll_to_avoid_ad()
-            expand_button_path = "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']"
+            expand_button_path: str = "//a[@class = 'btn-toggle-hours flex items-center text-primary-500 group hover:text-primary-300 transition-color duration-200 ease-in-out']"
             expand_button = self.driver.find_elements(By.XPATH, expand_button_path)
             
             if not expand_button:

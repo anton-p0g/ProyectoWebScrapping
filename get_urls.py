@@ -5,7 +5,7 @@ import time
 
 def main():
     try:
-        url = "https://www.happycow.net/"
+        url: str = "https://www.happycow.net/"
         driver = set_up_driver()
         driver.get(url)
         accept_cookies(driver)
@@ -48,7 +48,7 @@ def main():
         """
         time.sleep(3)
 
-        class_a = "thumbnail-link"  # The class name of the web pages
+        class_a: str = "thumbnail-link"  # The class name of the web pages
         lista_url = get_urls(driver, class_a)
         
         #Now we can create the file of restaurant urls

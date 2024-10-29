@@ -32,7 +32,7 @@ def accept_cookies(driver: webdriver):
         except:
             print("Second cookie popup not found")
             try:
-                path_pasado = "//*[@id='web-home']/div[3]/div/div[2]/div[3]/div/div[2]"
+                path_pasado: str = "//*[@id='web-home']/div[3]/div/div[2]/div[3]/div/div[2]"
                 accept_button2 = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, path_pasado)))
                 accept_button2.click()
                 print("Third cookie popup accepted")
@@ -40,7 +40,7 @@ def accept_cookies(driver: webdriver):
                 print("Third cookie popup not found")
 
 
-def read_restaurant_urls(file, start_index: int, stop_index: int) -> List[str]:
+def read_restaurant_urls(file: str, start_index: int, stop_index: int) -> List[str]:
     '''
     PRE:    file: A text file that contains the URLs of the restaurants
             start_index: The first url in the range
@@ -54,7 +54,7 @@ def read_restaurant_urls(file, start_index: int, stop_index: int) -> List[str]:
     return [link.strip() for link in links_slice]
 
 
-def get_restaurants_data(driver, urls: List[str], ini_count: int, file_name: str):
+def get_restaurants_data(driver: webdriver, urls: List[str], ini_count: int, file_name: str):
     '''
     PRE:    driver: The webdriver that we use to search
             urls: A list of urls of the restaurants
@@ -64,7 +64,7 @@ def get_restaurants_data(driver, urls: List[str], ini_count: int, file_name: str
     POST:   Extracts the data from each restaurant from the list of urls and writes the data to the csv file
     '''
 
-    cookies_accepted = False
+    cookies_accepted: bool = False
     count: int = ini_count
     for url in urls:
         restaurant: Restaurant = Restaurant(driver, url, count)
@@ -123,9 +123,9 @@ def main():
     Edu: indice = 1, numero de urls = 133
     """
 
-    indice_inicio = [1, 133, 303, 508]
-    numero_urls = [133, 170, 205, 240]
-    indice_fin = list(map(lambda x, y: x+y-1, indice_inicio, numero_urls))
+    indice_inicio: List[int] = [1, 133, 303, 508]
+    numero_urls: List[int] = [133, 170, 205, 240]
+    indice_fin: List[int] = list(map(lambda x, y: x+y-1, indice_inicio, numero_urls))
 
     # Cada uno de los integrantes debe cambiar las funciones para ejecutarlos
     # Aquí dejo el ejemplo del integrante Edu
@@ -136,7 +136,8 @@ def main():
     driver.quit()
 
     # Una vez hecho todos los ficheros los hemos juntado en un único fichero.
-    files = ["ficheros_csv/restaurants_1_133.csv", "ficheros_csv/restaurants_134_303.csv", "ficheros_csv/restaurants_303_507.csv", "ficheros_csv/restaurants_508_748.csv"]
+    files: List[str] = ["ficheros_csv/restaurants_1_133.csv", "ficheros_csv/restaurants_134_303.csv", "ficheros_csv/restaurants_303_507.csv", "ficheros_csv/restaurants_508_748.csv"]
+    file: str
     for file in files:
         combinar_csvs(file, "ficheros_csv/restaurants_definitivo.csv")
     
