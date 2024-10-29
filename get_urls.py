@@ -19,7 +19,8 @@ def prueba():
         print("Ha funcionado 1")
 
         """
-        Una vez accedido a la pagina de nuestra ciudad, aplicamos los filtros. Debemos tener la lista que contenga el filtro y los filtros
+        Una vez accedido a la pagina de nuestra ciudad, aplicamos los filtros. 
+        Debemos tener la lista que contenga el filtro y los filtros
         """
 
         time.sleep(3)

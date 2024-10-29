@@ -114,6 +114,7 @@ def main():
     Pablo: indice = 133, numero de urls = 170
     Edu: indice = 1, numero de urls = 133
     """
+    """
     indice_inicio = [1, 133, 303, 508]
     numero_urls = [133, 170, 205, 240]
     indice_fin = list(map(lambda x, y: x+y-1, indice_inicio, numero_urls))
@@ -122,17 +123,15 @@ def main():
     #print(urls)
     driver: webdriver = set_up_driver()
     #get_restaurants_data(driver, [urls[4]], 405,f"ficheros_csv/restaurants_{401}_{405}.csv")
-    
-    """
-    Para combinar los ficheros
-    
-    list_file = list(map(lambda x, y: f"ficheros_csv/restaurants_{x}_{y}.csv", indice_inicio, numero_urls))
-    for file in list_file:
-        get_restaurants_data(driver, urls, file)
-        combinar_csvs(file, "ficheros_csv/fichero_verdader.csv")
-    """
-
     driver.quit()
+    """
+    
+    files = ["ficheros_csv/restaurants_1_133.csv", "ficheros_csv/restaurants_134_303.csv", "ficheros_csv/restaurants_303_507.csv", "ficheros_csv/restaurants_508_748.csv"]
+    for file in files:
+        combinar_csvs(file, "ficheros_csv/restaurants_definitivo.csv")
+    
+
+    
 
 if __name__ == "__main__":
     main()
