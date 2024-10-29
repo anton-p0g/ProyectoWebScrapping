@@ -78,7 +78,12 @@ def get_restaurants_data(driver, urls: List[str], ini_count: int, file_name: str
 
 
 def combine_restaurants_to_csv(restaurants_data: Dict[str, str], csv_filename: str):
-
+    """
+    PRE: restaurants_data: dictionary of string and string
+         csv_filename: name of the csv file
+    POST: it writes the data of restaurants to a csv file.
+          If the file exists it adds the restaurant data. If not, it writes a header and then it adds the information
+    """
     if restaurants_data:
         fieldnames = restaurants_data.keys()
 

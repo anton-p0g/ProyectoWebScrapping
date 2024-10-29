@@ -50,6 +50,7 @@ def main():
 
         class_a = "thumbnail-link"  # The class name of the web pages
         lista_url = get_urls(driver, class_a)
+        
         #Now we can create the file of restaurant urls
         create_file_restaurant_urls(lista_url)
         driver.quit()
