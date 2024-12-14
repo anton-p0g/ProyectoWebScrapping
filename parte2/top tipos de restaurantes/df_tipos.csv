@@ -1,27 +1,27 @@
-,total,reviews,Media reviews,Número bookmarks,Media bookmarks,MP rating,Media precio,Distrito más frecuente,Barrio más frecuente
-Korean,4,10,2.5,51,12.75,3.4,Moderado 3,Centro,Palacio
-African,7,25,3.571,73,10.429,3.92,Moderado 1,Centro,Embajadores
-American,85,1356,15.953,2305,27.118,4.49,Moderado 2,Centro,Universidad
-Asian,86,412,4.791,948,11.023,3.823,Moderado 2,Centro,Embajadores
-Australian,2,18,9.0,25,12.5,3.806,Moderado 3,Centro,Palacio
-Brazilian,8,35,4.375,105,13.125,4.571,Moderado 2,Centro,Justicia
-British,1,0,0.0,0,0.0,0,Moderado 3,Centro,Universidad
-Caribbean,3,5,1.667,26,8.667,3.2,Barato 3,Centro,Palacio
-Chinese,19,246,12.947,485,25.526,3.803,Barato 3,Centro,Sol
-European,124,1241,10.008,2538,20.468,4.164,Moderado 2,Centro,Embajadores
-French,6,19,3.167,43,7.167,3.211,Barato 3,Centro,Universidad
-Fusion,61,1519,24.902,2710,44.426,4.431,Moderado 2,Centro,Universidad
-German,2,1,0.5,4,2.0,4.0,Moderado 3,Vicalvaro,Casco Histórico de Vicálvaro
-Indian,7,22,3.143,63,9.0,3.818,Moderado 2,Centro,Embajadores
-International,101,2370,23.465,4482,44.376,4.403,Moderado 2,Centro,Embajadores
-Italian,86,1078,12.535,2062,23.977,4.565,Moderado 2,Centro,Embajadores
-Japanese,54,271,5.019,556,10.296,3.873,Moderado 2,Centro,Justicia
-Latin,18,189,10.5,471,26.167,4.37,Moderado 1,Centro,Palacio
-Mediterranean,120,2351,19.592,4429,36.908,4.397,Moderado 1,Centro,Embajadores
-Mexican,37,1006,27.189,1614,43.622,4.572,Moderado 1,Centro,Justicia
-Middle Eastern,34,335,9.853,652,19.176,4.578,Moderado 2,Centro,Universidad
-Spanish,227,4898,21.577,9427,41.529,4.419,Moderado 1,Centro,Embajadores
-Taiwanese,1,13,13.0,26,26.0,3.5,Barato 1,Centro,Cortes
-Thai,5,26,5.2,54,10.8,3.5,Moderado 3,Centro,Sol
-Vietnamese,3,5,1.667,11,3.667,3.6,Moderado 1,Centro,Embajadores
-Western,80,1558,19.475,2714,33.925,4.437,Moderado 2,Centro,Universidad
+,total,reviews,MP rating,Distrito más frecuente,Barrio más frecuente,Media Precios
+Korean,4,10,3.4,Centro,Palacio,Moderado
+African,7,25,3.92,Centro,Embajadores,Moderado
+American,85,1356,4.49,Centro,Universidad,Moderado
+Asian,86,412,3.823,Centro,Embajadores,Moderado
+Australian,2,18,3.806,Centro,Palacio,Moderado
+Brazilian,8,35,4.571,Centro,Justicia,Moderado
+British,1,0,0,Centro,Universidad,Moderado
+Caribbean,3,5,3.2,Centro,Palacio,Barato
+Chinese,19,246,3.803,Centro,Sol,Barato
+European,124,1241,4.164,Centro,Embajadores,Moderado
+French,6,19,3.211,Centro,Universidad,Barato
+Fusion,61,1519,4.431,Centro,Universidad,Moderado
+German,2,1,4.0,Vicalvaro,Casco Histórico de Vicálvaro,Moderado
+Indian,7,22,3.818,Centro,Embajadores,Moderado
+International,101,2370,4.403,Centro,Embajadores,Moderado
+Italian,86,1078,4.565,Centro,Embajadores,Moderado
+Japanese,54,271,3.873,Centro,Justicia,Moderado
+Latin,18,189,4.37,Centro,Palacio,Moderado
+Mediterranean,120,2351,4.397,Centro,Embajadores,Moderado
+Mexican,37,1006,4.572,Centro,Justicia,Moderado
+Middle Eastern,34,335,4.578,Centro,Universidad,Moderado
+Spanish,227,4898,4.419,Centro,Embajadores,Moderado
+Taiwanese,1,13,3.5,Centro,Cortes,Barato
+Thai,5,26,3.5,Centro,Sol,Moderado
+Vietnamese,3,5,3.6,Centro,Embajadores,Moderado
+Western,80,1558,4.437,Centro,Universidad,Moderado
