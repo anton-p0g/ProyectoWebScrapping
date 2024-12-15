@@ -79,6 +79,41 @@ Además, se proporciona información útil, como un rango aproximado de precios 
 
 Para complementar, se incluyen diagramas de tarta que ilustran la proporción de cada tipo de restaurante según distintas características, así como diagramas de cajas que permiten analizar la distribución de los restaurantes en función de diferentes variables.
 
+---
+# Directorio Análisis_areas
+
+## Teoría económica de la orientación de Hotelling ¿Dónde oriento mi restaurante?
+
+### Tratamiento de datos
+Imaginemos el caso de un empresario que desea abrir un restaurante pero no sabe dónde ubicarlo. Con este escenario en mente, hemos decidido realizar un análisis geográfico para identificar las ubicaciones de los restaurantes más exitosos en función del barrio o de ciertos subgrupos de distritos de Madrid.  
+Para llevar a cabo este análisis, hemos desarrollado una métrica que cuantifica el éxito de los restaurantes:  
+
+**Success Ratio = "Number of Ratings" * "Restaurant Rating" + "Number of Bookmarks"**
+
+Además, realizamos una hipótesis inicial que se basa en la teoría de Hotelling. Esta teoría sostiene que los negocios competidores tienden a agruparse en lugar de dispersarse, lo que les permite obtener ventajas económicas y atraer a un mayor número de clientes.
+
+
+### Importación y limpieza de datos y creación de columnas
+---
+
+Este análisis se encuentra en el **jupyter notebook** `análisis_areas.ipynb` donde emplearemos las columnas:  
+**Lat, Long, Number of Ratings, Restaurant Rating, Number of Bookmarks, NOMBRE_DISTRITO, NOMBRE_BARRIO.**  
+
+Para dibujar el sector en la gráfica importamos los archivos **Distritos.shp** y **Barrios.shx** y transformamos las coordenadas que aparecen al formato **EPSG:4326 (el nuestro).**
+
+
+### Visualización de los datos
+---
+
+Primero creamos las funciones calculo_vecto_V y lista_distancias para calcular los dos vectores singulares y una lista de colores según la distancia de un restaurante respecto de los demás en una determinada zona.  
+En color rojo los que tienen menor distancia y así con los azules, los verdes y los morados (los que tienen mayor distancia).  
+
+Posteriormente, dividimos la gráfica en 12 subplots correspondientes a las 12 zonas que tenemos. Calculamos los vectores singulares de la matriz de longitud y latitud de los restaurantes con más éxito en una determinada zona correspondiente para crear después dos rectas que representarán las direcciones principales de los restaurantes con éxito.  
+Pintamos en cada gráfica los puntos de los restaurantes y les damos un color según viene dado en la lista de colores.  
+Además, para poder ver los restaurantes con éxito y los que no tenemos certeza de que lo tienen, dibujamos alrededor de cada restaurante una figura geométrica: un pentágono para los que tienen éxito y un rectángulo para los que no sabemos.  
+
+Por último, dibujamos el sector con las coordenadas que importamos de **Distritos.shp** y **Barrios.shx.**  
+Esta gráfica se añade al directorio `figuras`.
 
 ---
 
