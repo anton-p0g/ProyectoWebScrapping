@@ -4,7 +4,7 @@ Este directorio contiene el fichero `Correlaciones.ipynb` y el directorio `Figur
 
 ## Correlaciones.ipynb
 
-Correlaciones.ipynb es un Jupyter notebook que documenta el análisis de los datos extraídos del archivo original restaurants_definitivo.csv. En este notebook, se realizaron diversas manipulaciones y transformaciones de los datos para preparar un análisis más profundo. Esto incluyó la creación de nuevas variables numéricas a partir de los datos originales, así como la conversión de variables categóricas en valores numéricos para facilitar los análisis.
+`Correlaciones.ipynb` es un Jupyter notebook que documenta el análisis de los datos extraídos del archivo original `restaurants_definitivo.csv`. En este notebook, se realizaron diversas manipulaciones y transformaciones de los datos para preparar un análisis más profundo. Esto incluyó la creación de nuevas variables numéricas a partir de los datos originales, así como la conversión de variables categóricas en valores numéricos para facilitar los análisis.
 
 ### Entre las nuevas variables creadas se encuentran:
 
@@ -18,7 +18,7 @@ Correlaciones.ipynb es un Jupyter notebook que documenta el análisis de los dat
 ### El análisis incluyó:
 
 1. **Visualización de la Popularidad**:
-   Se generó un histograma para interpretar la distribución de la métrica de popularidad, identificando tendencias y posibles conclusiones. Para ello primero se han normalizado las variables usadas en el cálculo usando la librería sklearn usando el método de MinMaxScaler que transforma los datos en valores entre 0 y 1. 
+   Se generó un histograma para interpretar la distribución de la métrica de popularidad, identificando tendencias y posibles conclusiones. Para ello primero se han normalizado las variables usadas en el cálculo usando la librería `sklearn` usando el método de `MinMaxScaler` que transforma los datos en valores entre 0 y 1. 
 
 2. **Matriz de Correlaciones**:
    Se construyó una matriz de correlaciones para identificar relaciones significativas entre las variables numéricas. Esto permitió detectar relaciones interesantes, como la clara correlación entre el número de ratings y el número de marcadores.
@@ -30,7 +30,7 @@ Correlaciones.ipynb es un Jupyter notebook que documenta el análisis de los dat
 
 El notebook incluye tanto las transformaciones realizadas como la documentación en celdas de markdown y comentarios dentro del código, asegurando que los pasos están claramente explicados.
 
-## Directorio Figuras
+### Directorio Figuras
 
 El directorio Figuras contiene las gráficas generadas durante el análisis, que fueron utilizadas en nuestra presentación. Estas incluyen:
 
@@ -82,8 +82,6 @@ Para complementar, se incluyen diagramas de tarta que ilustran la proporción de
 ---
 # Directorio Análisis_areas
 
-## Teoría económica de la orientación de Hotelling ¿Dónde oriento mi restaurante?
-
 ### Tratamiento de datos
 Imaginemos el caso de un empresario que desea abrir un restaurante pero no sabe dónde ubicarlo. Con este escenario en mente, hemos decidido realizar un análisis geográfico para identificar las ubicaciones de los restaurantes más exitosos en función del barrio o de ciertos subgrupos de distritos de Madrid.  
 Para llevar a cabo este análisis, hemos desarrollado una métrica que cuantifica el éxito de los restaurantes:  
@@ -104,12 +102,10 @@ Para dibujar el sector en la gráfica importamos los archivos **Distritos.shp** 
 
 ### Visualización de los datos
 ---
-
-Primero creamos las funciones calculo_vecto_V y lista_distancias para calcular los dos vectores singulares y una lista de colores según la distancia de un restaurante respecto de los demás en una determinada zona.  
-En color rojo los que tienen menor distancia y así con los azules, los verdes y los morados (los que tienen mayor distancia).  
-
 Posteriormente, dividimos la gráfica en 12 subplots correspondientes a las 12 zonas que tenemos. Calculamos los vectores singulares de la matriz de longitud y latitud de los restaurantes con más éxito en una determinada zona correspondiente para crear después dos rectas que representarán las direcciones principales de los restaurantes con éxito.  
-Pintamos en cada gráfica los puntos de los restaurantes y les damos un color según viene dado en la lista de colores.  
+
+Pintamos en cada gráfica los puntos de los restaurantes y les damos un color respecto a la distancia con los demás restaurantes.
+
 Además, para poder ver los restaurantes con éxito y los que no tenemos certeza de que lo tienen, dibujamos alrededor de cada restaurante una figura geométrica: un pentágono para los que tienen éxito y un rectángulo para los que no sabemos.  
 
 Por último, dibujamos el sector con las coordenadas que importamos de **Distritos.shp** y **Barrios.shx.**  
