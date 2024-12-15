@@ -65,7 +65,19 @@ Para ello se manipulan los ficheros `restaurants_definitivo.csv`, `Distritos.shp
 - `Barrios.shp`: fichero que describe los polígonos que forman los distritos de la ciudad de Madrid. Depende del fichero Barrios.shx.
 - `Barrios.shx`: fichero que contiene los índices de los polígonos del fichero anterior.
 
+---
+# Directorio Top tipos de restaurantes 
 
+En el directorio mencionado se encuentra el Jupyter notebook top_tipos_restaurantes.ipynb, que utiliza como base el archivo CSV `restaurantes_con_distrito_barrio`. A partir de este, realiza diversas operaciones para generar el CSV `df_tipos`. El resultado es un dataframe cuyo índice representa los tipos de gastronomía, mientras que sus columnas contienen diferentes factores relacionados.
+
+El propósito de este apartado es responder preguntas como:
+
+- ¿Cuáles son los tipos de restaurantes más abundantes, los que tienen más reseñas y los mejor valorados?
+- ¿Cuáles son los tipos menos comunes, con menos reseñas y peor valorados?
+
+Además, se proporciona información útil, como un rango aproximado de precios y los barrios y distritos donde cada tipo de restaurante se encuentra con mayor frecuencia.
+
+Para complementar, se incluyen diagramas de tarta que ilustran la proporción de cada tipo de restaurante según distintas características, así como diagramas de cajas que permiten analizar la distribución de los restaurantes en función de diferentes variables.
 
 
 ---
