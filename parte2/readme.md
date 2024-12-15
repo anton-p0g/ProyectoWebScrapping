@@ -41,3 +41,26 @@ El directorio Figuras contiene las gráficas generadas durante el análisis, que
 Este análisis nos ha permitido obtener una visión más clara de los factores que influyen en los datos de los restaurantes y generar conclusiones importantes basadas en las correlaciones identificadas.
 
 ---
+# Directorio ficheros_csv
+Este directorio contiene los ficheros .csv que se van a emplear para el tratamiento y visualización de datos. Esos ficheros son:
+
+- `restaurants_definitivo.csv`: fichero que contiene todos los datos de los restaurantes obtenidos mediante scraping.
+- `restaurantes_con_distrito_barrio.csv`: fichero obtenido del notebook `mapas.ipynb` que contiene, además de todos los datos contenidos en `restaurants_definitivo.csv`, dos columnas extra con el distrito y barrio en el que se localiza cada restaurante.
+- `transformaciones.csv`: contiene las transformaciones y manipulaciones de datos que hemos realizado sobre el dataset original. 
+---
+
+# Directorio Mapas distribución y afluencia
+Este directorio contiene los siguientes ficheros:
+
+## mapas.ipynb 
+Se trata de un notebook que realiza todas las transformaciones de datos necesarias para responder dos preguntas: 
+- ¿Cuál es la distribución de los restaurantes veganos por distritos en la ciudad de Madrid? 
+- ¿Qué distritos tienen los restaurantes más populares?. 
+
+Para ello se manipulan los ficheros `restaurants_definitivo.csv`, `Distritos.shp` y `Barrios.shp`. Una vez realizadas las transformaciones oportunas (descritas en el notebook con anotaciones markdown) se generan dos gráficas: la primera contiene los mapas por distrito y barrio de la cantidad de restaurantes que hay en cada distrito o barrio y la segunda contiene un mapa que muestra qué distritos tienen de media más reseñas por restaurante, lo que puede ser un indicador de popularidad.
+
+## Ficheros auxiliares
+- `Distritos.shp`: fichero que describe los polígonos que forman los distritos de la ciudad de Madrid. Depende del fichero Distritos.shx.
+- `Distritos.shx`: fichero que contiene los índices de los polígonos del fichero anterior.
+- `Barrios.shp`: fichero que describe los polígonos que forman los distritos de la ciudad de Madrid. Depende del fichero Barrios.shx.
+- `Barrios.shx`: fichero que contiene los índices de los polígonos del fichero anterior.
