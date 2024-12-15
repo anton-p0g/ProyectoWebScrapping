@@ -64,3 +64,40 @@ Para ello se manipulan los ficheros `restaurants_definitivo.csv`, `Distritos.shp
 - `Distritos.shx`: fichero que contiene los índices de los polígonos del fichero anterior.
 - `Barrios.shp`: fichero que describe los polígonos que forman los distritos de la ciudad de Madrid. Depende del fichero Barrios.shx.
 - `Barrios.shx`: fichero que contiene los índices de los polígonos del fichero anterior.
+
+
+
+
+---
+
+## Ejecución del código
+Todo nuestro código está organizado en cuatro Jupyter Notebooks, cada uno especializado en las distintas partes del análisis descritas anteriormente. La ejecución es sencilla: basta con ejecutar cada celda secuencialmente para reproducir los resultados.
+
+Además, cada notebook incluye celdas de Markdown con explicaciones claras y detalladas que describen el propósito y funcionamiento de cada sección del código, facilitando su comprensión y seguimiento.
+
+## Módulos y librerías utilizadas
+- **NumPy**: Se utilizó para cálculos numéricos eficientes, como operaciones en la regresión lineal.
+  Instalación: `pip install numpy`
+- **Pandas**: Se usó para la manipulación y transformación de datos en formato tabular.   
+  Instalación: `pip install pandas`
+- **Scikit-learn (Sklearn)**: Se empleó para normalizar los datos utilizando MinMaxScaler. 
+  Instalación: `pip install scikit-learn`
+- **Matplotlib**: Para crear gráficos como histogramas y gráficos de dispersión.  
+  Instalación: `pip install matplotlib`
+- **Seaborn**: Para generar gráficos estadísticos avanzados, como el heatmap de correlaciones.  
+  Instalación: `pip install seaborn`
+- **GeoPandas**: Nos sirvió para trabajar con objetos geoespaciales como puntos y polígonos.  
+  Instalación: `pip install geopandas`
+
+## Bibliografía
+Hemos usado estos artículos de `Wikipedia` para consultar el orden en el que están los distritos y barrios de Madrid para incluir una columna en cada `GeoDataFrame` con los polígonos de cada distrito y barrio que les etiquetara.
+
+- [Distritos de Madrid](https://es.wikipedia.org/wiki/Anexo:Distritos_de_Madrid)  
+- [Barrios administrativos de Madrid](https://es.wikipedia.org/wiki/Anexo:Barrios_administrativos_de_Madrid)
+
+## Fuentes de los archivos .shp
+Hemos obtenido los archivos `.shp` que describen los polígonos que describen el contorno de los distritos y barrios de Madrid de las siguientes fuentes:
+- **Distritos**:  
+  [Datos Madrid - Distritos](https://datos.madrid.es/sites/v/index.jsp?vgnextoid=7d6e5eb0d73a7710VgnVCM2000001f4a900aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD)
+- **Barrios**:  
+  [Datos Madrid - Barrios](https://datos.madrid.es/sites/v/index.jsp?vgnextoid=760e5eb0d73a7710VgnVCM2000001f4a900aRCRD&vgnextchannel=374512b9ace9f310VgnVCM100000171f5a0aRCRD)
